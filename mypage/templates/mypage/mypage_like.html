@@ -1,0 +1,227 @@
+{% extends 'mypage/mypage.html' %}
+{% load static %}
+{% load humanize %}
+{% block title %}NoPainNoGame{% endblock %}
+{% block script %}
+<script>
+
+</script>
+{% endblock %}
+{% block style %}
+<link rel="stylesheet" href="{% static 'css/button.css' %}">
+<style>
+    h5{
+        font-size: 16px;
+        display: inline;
+    }
+    p{
+        margin: 0;
+    }
+    ul{
+        padding: 0;
+        margin: 0;
+    }
+    li{
+        list-style: none;
+    }
+    .container{
+        display: flex;
+    }
+    .list{
+        width: 450px;
+    }
+    .mypage_menu{
+        width: 200px;
+        text-align: center;
+        margin-right: 20px;
+    }
+    .mypage_menu ul{
+        border: 1px solid black;
+        border-radius: 5px;
+        padding: 10px;
+    }
+    .mypage_menu li{
+        border-bottom: 1px solid lightgray;
+        height: 40px;
+        line-height: 40px;
+    }
+    legend{
+        font-weight: bold;
+        margin: 0;
+    }
+
+    .device_list{
+        display:flex;
+        flex-wrap: wrap;
+        border: 2px solid white;
+    }
+    .device{
+        position: relative;
+        padding: 10px;
+        width: 200px;
+        height: 320px;
+        margin-bottom: 20px;
+        margin-right: 20px;
+        border: 1px solid lightgray;
+        border-radius: 5px;
+    }
+    .device:nth-child(odd){
+        margin-right: 0;
+    }
+    .pub{
+        font-size: 15px;
+        color: gray;
+    }
+    .device_img_div{
+        position: relative;
+       display: flex;
+       align-items: center;
+       width: 180px;
+       height: 230px;
+    }
+    .device_img_div p{
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        font-size: 13px;
+        margin: 0;
+        background-color: white;
+    }
+    .device_img{
+        width: 180px;
+    }
+
+    .price{
+        position: absolute;
+        bottom: 0;
+        left: 5px;
+        line-height: 35px;
+    }
+    .device_able{
+        position: absolute;
+        line-height: 35px;
+        bottom: 2px;
+        right: 50px;
+        margin: 0;
+    }
+
+    .game_list{
+        display:flex;
+        flex-wrap: wrap;
+    }
+    .game{
+        position: relative;
+        padding: 5px;
+        width: 200px;
+        height: 320px;
+        border: 2px solid black;
+        margin-bottom: 20px;
+        margin-right: 20px;
+        border: 1px solid lightgray;
+        border-radius: 5px;
+    }
+    .game:nth-child(odd){
+        margin-right: 0;
+    }
+    .device_value{
+        font-size: 15px;
+        color: gray;
+    }
+    .game_img_div{
+       display: flex;
+       align-items: center;
+       width: 180px;
+       height: 200px;
+    }
+    .game_img{
+        width: 180px;
+    }
+
+    .game_able{
+        position: absolute;
+        line-height: 35px;
+        bottom: 2px;
+        right: 50px;
+        margin: 0;
+    }
+
+    /*버튼 css*/
+    .btn {
+        position: absolute;
+        bottom: 10px;
+        right: 10px;
+        border: 0;
+        padding: 2px 5px;
+        text-align: center;
+        color: white;
+        font-weight: 600;
+        font-size: 12px;
+        border-radius: 3px;
+        cursor: pointer;
+    }
+    .btn:active{
+        bottom: 5px;
+    }
+
+</style>
+{% endblock %}
+{% block contents %}
+
+<div class="list"><h2>기기</h2>
+    <div class="device_list">
+    {% for rd in like_devices %}
+        <a href="{% if rd.device_check == 0 %}
+                   {{rd.get_dabsolute_url}}
+                  {% else %}
+                    {{rd.get_dreserve_url}}
+                    {% endif %}">
+            <div class="device">
+            <div class="device_img_div">
+                <img class="device_img" src="{{rd.device_image.url}}" alt="device image">
+                <p>상태 : {{ rd.device_state }}</p>
+            </div>
+            <div>
+                <h5 class="card-title">{{rd.device_name|upper}}</h5>
+                <span class="pub">{{rd.device_pub|date:"Y"}}</span>
+                <p class="price">{{rd.device_rfee|intcomma}}원</p>
+                {% if rd.device_check == 0 %}
+                    <p class="device_able">대여 가능</p>
+                {% else %}
+                    <p class="device_able">예약하기</p>
+                {% endif %}
+                <a class="btn red rounded" href="{% url 'mypage:mypage_Ddislike' rd.device_id %}">
+                    삭제
+                </a>
+            </div>
+        </div></a>
+            {% endfor %}
+    </div>
+</div>
+
+<div class="list"><h2>게임</h2>
+    <div class="game_list">
+            {% for rg in like_games %}
+
+                <a href="{% if rg.game_stock != 0 %}{{rg.get_gabsolute_url}}{% else %}{{rg.get_greserve_url}}{% endif %}"><div class="game">
+                    <div class="game_img_div">
+                        <img class="game_img" src="{{rg.game_image.url}}" alt="Game image">
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">{{rg.game_name}}</h5>
+                        <span class="device_value">{{rg.device_value}}</span>
+                        <p class="card-text"><span class="price">{{rg.game_rfee|intcomma}}원</span></p>
+                        {% if rg.game_stock > 0 %}
+                            <p style="margin-top: 10px;">{{ rg.game_stock }}개</p>
+                            <p class="game_able">대여 가능</p>
+                        {% else %}
+                            <p class="game_able">예약하기</p>
+                        {% endif %}
+                        <a class="btn red rounded" href="{% url 'mypage:mypage_Gdislike' rg.game_id %}">
+                            삭제
+                        </a>
+                    </div>
+                </div></a>
+            {% endfor %}
+        </div>
+</div>
+{% endblock %}

@@ -1,0 +1,238 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}NoPainNoGame - register{% endblock %}
+{% block style %}
+<link rel="stylesheet" href="{% static 'css/button.css' %}">
+<style>
+    .container{
+        background-image: url({% static 'image/header_back_3.png' %});
+        background-size: 95px auto;
+        padding-top: 60px;
+        height: 750px;
+    }
+    .login_f{
+        position: relative;
+        width: 400px;
+        height: 480px;
+        margin: 0 auto;
+        color: white;
+        display: block;
+        border: 8px solid transparent;
+        border-image-source: url({% static 'image/header_border.png' %});
+        border-image-slice: 12;
+        border-image-repeat: round;
+        background-image: url({% static 'image/header_back_1.png' %});
+        background-size: 70px auto;
+        padding: 20px;
+        font-weight: bold;
+    }
+    .register_h{
+            text-align: center;
+            border: 8px solid transparent;
+            border-image-source: url({% static 'image/header_border.png' %});
+            border-image-slice: 12;
+            border-image-repeat: round;
+            font-family: 'Dunggeunmo', sans-serif;
+            color: #341E12FF;
+            text-shadow: -3px 0 #734425FF, 0 3px #734425FF, 3px 0 #734425FF, 0 -3px #734425FF;
+            width: 250px;
+            background-image: url({% static 'image/header_back_1.png' %});
+            background-size: 70px auto;
+            margin: 0 auto;
+            padding: 5px;
+            letter-spacing: 5px;
+    }
+    div.f{
+        width: 344px;
+        text-align: center;
+    }
+    div.f p{
+        display: inline;
+        margin: 0;
+    }
+    #addButton{
+        width: 80px;
+        height: 30px;
+        background-color: rgb(239, 239, 239);
+        border: 1px solid #ccc;
+        font-size: 13px;
+        border-radius: 3px;
+        cursor: pointer;
+        vertical-align: middle;
+    }
+    label{
+        display: inline-block;
+        padding-top: 15px;
+        padding-right: 10px;
+        padding-bottom: 15px;
+        width: 120px;
+        text-align: left;
+    }
+    input{
+        line-height: 27px;
+        display: inline-block;
+        border: 1px solid #d3d3d3;
+        border-radius: 3px;
+        width: 150px;
+    }
+    .add{
+        margin-left: 120px;
+        margin-bottom: 8px;
+    }
+    #register_btn{
+        position: absolute;
+        right: 10px;
+        bottom: 10px;
+        width: 70px;
+    }
+
+    /*버튼 css*/
+    .btn {
+        position: relative;
+        border: 0;
+        padding: 3px;
+        display: inline-block;
+        text-align: center;
+        color: white;
+        font-weight: 600;
+        font-size: 13px;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+    .btn:active {
+        margin-bottom: -3px;
+    }
+</style>
+{% endblock %}
+{% block script %}
+<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<script src="https://use.fontawesome.com/releases/v5.2.0/js/all.js"></script>
+<script>
+    //주소불러오기 스크립트
+    window.onload = function(){
+        document.getElementById('addButton').addEventListener('click', function(){ //우편번호 버튼 클릭 시
+            //카카오 지도 발생
+
+            var themeObj = {
+               //bgColor: "", //바탕 배경색
+               searchBgColor: "#6698CB", //검색창 배경색
+               //contentBgColor: "", //본문 배경색(검색결과,결과없음,첫화면,검색서제스트)
+               //pageBgColor: "", //페이지 배경색
+               //textColor: "", //기본 글자색
+               queryTextColor: "#3F3D3D" //검색창 글자색
+               //postcodeTextColor: "", //우편번호 글자색
+               //emphTextColor: "", //강조 글자색
+               //outlineColor: "", //테두리
+            };
+
+            new daum.Postcode({
+                oncomplete: function(data) { //선택시 입력값 세팅
+                    document.getElementById('address_postcode').value = data.zonecode; //우편번호 넣기
+                    document.getElementById('address').value = data.address; //주소 넣기
+                    document.getElementById('address_detail').focus(); //상세입력 포커싱
+                },
+                theme: themeObj
+            }).open();
+
+            new daum.Postcode({
+               theme: themeObj
+            }).embed(target);
+
+        });
+    }
+
+// //전화번호 하이픈
+// $(document).ready(function (){
+//     $("input#phone").blur(function (){
+//
+//         $("input#phone").blur(function (){
+//             var num = $("input#phone").val();
+//             blur(num)
+//         });
+//
+//         $("input#phone").click(function (){
+//             var num = $("input#phone").val();
+//             focus(num);
+//         });
+//     });
+// });
+//     function blur(num) {
+//         num = num.replace(/[^0-9]/g, '');
+//         var tmp = '';
+//         tmp += num.substr(0, 3);
+//         tmp += '-';
+//         tmp += num.substr(3, 4);
+//         tmp += '-';
+//         tmp += num.substr(7);
+//         $("input#phone").val(tmp);
+//     }
+//
+//     function focus(num) {
+//         num = num.replace(/[^0-9]/g,'');
+//         $("input#phone").val(num);
+//     }
+//
+//     document.querySelector('#register_btn').addEventListener('click',
+//     (event) => {
+//         // 전화번호 가져오기
+//         const phoneNumber = document.querySelector('#phone').value;
+//
+//         // 전화번호에 하이픈(-)이 삽입된 경우 '' (공백)으로 전환
+//         const trimmedPhoneNumber = phoneNumber.replace(/-/g, '');
+//
+//         //하이픈 없앤 전화번호 값 출력.
+//         alert(`전화번호는 ${trimmedPhoneNumber} 입니다.`);
+//
+//
+//         // 버튼의 기본 작동을 해제
+//         event.preventDefault();
+//     });
+
+</script>
+{% endblock %}
+{% block content %}
+        <h1 class="register_h">회원가입</h1><br><br>
+    <form class="login_f" method="POST" action="{% url 'account:register' %}">
+        {% csrf_token %}
+        <div class="login_form">
+            <div class="f"><label>이름</label><input name="member_name" type="text" placeholder="이름" value=""></div>
+            <div class="f"><label>아이디</label><input name="member_id" type="text" placeholder="id" value=""></div>
+            <div class="f"><label>비밀번호</label><input name="1st_password" type="password" placeholder="비밀번호" value=""></div>
+            <div class="f"><label>비밀번호 확인</label><input name="2st_password" type="password" placeholder="비밀번호 확인" value=""></div>
+            <div class="f">
+                <div style="display: flex; justify-content: center; position: relative;">
+                    <label>주소</label>
+                    <div style="width: 150px; padding-top:15px; text-align: left;">
+                        <input type="text" id="address_postcode" value="" placeholder="우편번호" style="width:100px;" readonly>
+                        <input style="position: absolute; top: 15px; right: 0;" type = "button" id="addButton" value="우편번호">
+                    </div>
+                </div>
+                <input class="add" type="text" id="address" name="address" placeholder="주소" readonly>
+                <input class="add" type="text" id="address_detail" name="address_detail" placeholder="상세주소"/>
+            </div>
+
+            <div class="f"><label>전화번호</label><input name="phone" type="text" placeholder="전화번호" value=""></div>
+            <div class="register_button"><input id="register_btn" class="btn blue rounded" type="submit" value="가입하기"></div>
+        </div>
+        <div>
+            {% if request.GET.result == 'passfail' %}
+		        <p style="color: yellow;font-size:15px;">비밀번호가 일치하지 않습니다.</p>
+            {% endif %}
+            {% if request.GET.result == 'namefail' %}
+                <p style="color: yellow;font-size:15px;">이름을 입력하십시오.</p>
+            {% endif %}
+            {% if request.GET.result == 'idfail' %}
+                <p style="color: yellow;font-size:15px;">아이디를 입력하십시오.</p>
+            {% endif %}
+            {% if request.GET.result == 'phonefail' %}
+                <p style="color: yellow;font-size:15px;">전화번호를 입력하십시오.</p>
+		    {% endif %}
+            {% if request.GET.result == 'id_repeat' %}
+                <p style="color: yellow;font-size:15px;">이미 존재하는 아이디입니다.</p>
+		    {% endif %}
+            {% if request.GET.result == 'phone_repeat' %}
+                <p style="color: yellow;font-size:15px;">이미 존재하는 전화번호입니다.</p>
+		    {% endif %}
+        </div>
+    </form>
+{% endblock %}

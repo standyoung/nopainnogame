@@ -1,0 +1,34 @@
+    /*버튼 css*/
+    .btn{
+        cursor: pointer;
+    }
+
+    .color .yellow {background: #f0d264;}
+    .color .blue   {background: #6698cb;}
+    .color .red    {background: #fa5a5a;}
+    .color .green  {background: #82c8a0;}
+    .color .cyan   {background: #7fccde;}
+    .color .purple {background: #cb99c5;}
+
+    a[class*="btn"] {text-decoration: none;}
+    input[class*="btn"],
+    button[class*="btn"] {border: 0;}
+
+    /* color classes for .btn */
+    .btn.blue {box-shadow: 0px 4px #5c8ab8;background-color: #6698cb;}
+    .btn.blue:active {box-shadow: 0 0 #6698cb; background-color: #608fbf;}
+
+    .btn.green {box-shadow: 0px 4px 0px #87a86f;background-color: #9abf7f;}
+    .btn.green:active {box-shadow: 0 0 #87a86f; background-color: #87a86f;}
+
+    .btn.red {box-shadow:0px 4px 0px #E04342;background-color: #fa5a5a;}
+    .btn.red:active {box-shadow: 0 0 #ff4c4b; background-color: #ff4c4b;}
+
+    .btn.purple {box-shadow:0px 4px 0px #AD83A8;background: #cb99c5;}
+    .btn.purple:active {box-shadow: 0 0 #BA8CB5; background-color: #BA8CB5;}
+
+    .btn.cyan {box-shadow:0px 4px 0px #73B9C9;background-color: #7fccde;}
+    .btn.cyan:active {box-shadow: 0 0 #73B9C9; background-color: #70B4C4;}
+
+    .btn.yellow {box-shadow:0px 4px 0px #D1B757;background-color: #f0d264;}
+    .btn.yellow:active {box-shadow: 0 0 #ff4c4b; background-color: #D6BB59;}

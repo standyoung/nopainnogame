@@ -1,0 +1,161 @@
+{% extends 'mypage/mypage.html' %}
+{% load static %}
+{% block title %}NoPainNoGame{% endblock %}
+{% block script %}
+<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<script>
+    //주소불러오기 스크립트
+    window.onload = function(){
+        document.getElementById('addButton').addEventListener('click', function(){ //우편번호찾기 버튼 클릭 시
+            //카카오 지도 발생
+            var themeObj = {
+               //bgColor: "", //바탕 배경색
+               searchBgColor: "#7FCCDE", //검색창 배경색
+               //contentBgColor: "", //본문 배경색(검색결과,결과없음,첫화면,검색서제스트)
+               //pageBgColor: "", //페이지 배경색
+               //textColor: "", //기본 글자색
+               //queryTextColor: "#484848", //검색창 글자색
+               //postcodeTextColor: "", //우편번호 글자색
+               //emphTextColor: "", //강조 글자색
+               //outlineColor: "", //테두리
+            };
+
+            new daum.Postcode({
+                oncomplete: function(data) { //선택시 입력값 세팅
+                    document.getElementById('address_postcode').value = data.zonecode; //우편번호 넣기
+                    document.getElementById('another_address').value = data.address; //주소 넣기
+                    document.getElementById('another_address_detail').focus(); //상세입력 포커싱
+                },
+                theme: themeObj
+            }).open();
+
+            new daum.Postcode({
+               theme: themeObj
+            }).embed(target);
+
+        });
+    }
+</script>
+{% endblock %}
+{% block style %}
+<link rel="stylesheet" href="{% static 'css/button.css' %}">
+<style>
+    ul{
+        padding: 0;
+        margin: 0;
+    }
+    li{
+        list-style: none;
+    }
+    .container{
+        display: flex;
+    }
+    .mypage_menu{
+        width: 200px;
+        text-align: center;
+        margin-right: 20px;
+    }
+    .mypage_menu ul{
+        border: 1px solid black;
+        border-radius: 5px;
+        padding: 10px;
+    }
+    .mypage_menu li{
+        border-bottom: 1px solid lightgray;
+        height: 40px;
+        line-height: 40px;
+    }
+    legend{
+        font-weight: bold;
+        margin: 0;
+    }
+    .mypage_content{
+        width: 900px;
+        margin: 0 auto;
+    }
+    .mypage_content table{
+        width: 100%;
+        text-align: center;
+        border-bottom: 1px solid black;
+        border-collapse: collapse;
+    }
+    .mypage_content tr{
+        height: 40px;
+        border-top: 1px solid gray;
+    }
+    .mypage_content td{
+        padding: 12px;
+    }
+    .mypage_content td:nth-child(1){
+        text-align: left;
+    }
+    .mypage_content td:nth-child(2){
+        width: 550px;
+        text-align: left;
+    }
+    .mypage_content input{
+        height: 30px;
+        padding: 5px;
+        border: 1px solid #d3d3d3;
+        border-radius: 3px;
+    }
+
+    /*버튼 css*/
+    .btn {
+        position: relative;
+        border: 0;
+        padding: 6px 12px;
+        margin: 10px;
+        display: inline-block;
+        text-align: center;
+        color: white;
+        font-weight: 600;
+        font-size: 14px;
+        border-radius: 5px;
+    }
+    .btn:active {
+        top: 4px;
+    }
+</style>
+{% endblock %}
+{% block contents %}
+<div class="mypage_content">
+    <h3>정보 수정</h3>
+    <form method="POST">
+    {% csrf_token %}
+    <table>
+        <tr>
+            <td>이름</td>
+            <td>{{user.member_name}}</td>
+        </tr>
+        <tr>
+            <td>아이디</td>
+            <td><input type="text" placeholder="아이디를 입력하세요." name="edit_id" value="{{user.member_id}}"></td>
+        </tr>
+        <tr>
+            <td>전화번호</td>
+            <td><input type="text" placeholder="전화번호를 입력하세요." name="edit_phone" value="{{user.phone}}"></td></td>
+        </tr>
+        <tr>
+            <td>기존 주소</td>
+            <td>{{user.address}}</td>
+        </tr>
+        <tr>
+            <td>주소</td>
+            <td>
+                <p>
+                    <input type="text" id="address_postcode" value="" placeholder="우편번호" style="width:100px;" readonly>
+                    <input type = "button" id="addButton" style="cursor: pointer;" value="우편번호">
+                </p>
+                <p>
+                    <input type="text" id="another_address" name="another_address" placeholder="주소" style="width:200px" readonly>
+                    <input type="text" id="another_address_detail" name="another_address_detail" placeholder="상세주소"/>
+                </p>
+            </td>
+        </tr>
+    </table>
+        <div style="text-align: right;"><button type="submit" class="btn cyan rounded">수정하기</button></div>
+    </form>
+    <p style="color: yellow;">{{error}}</p>
+</div>
+{% endblock %}

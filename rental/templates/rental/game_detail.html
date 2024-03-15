@@ -1,0 +1,141 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load humanize %}
+{% block title %}Game Detail{% endblock %}
+{% block style %}
+<link rel="stylesheet" href="{% static 'css/button.css' %}">
+<style>
+.game_container{
+  position: relative;
+}
+p{
+  margin: 0;
+}
+    h5{
+        font-size: 16px;
+        display: inline;
+    }
+    h1{
+        margin: 0;
+    }
+  .game_contents{
+  position: relative;
+    display: flex;
+  }
+  .game_contents div{
+    position: relative;
+    width: 690px;
+    margin-left: 50px;
+  }
+  .game_contents img{
+  display: block;
+    width: 400px;
+  }
+  .command{
+    margin-top: 100px;
+  }
+.command_list{
+  display: flex;
+  justify-content: space-between;
+}
+    .game{
+        position: relative;
+        padding: 5px;
+        width: 200px;
+        height: 290px;
+        border: 2px solid black;
+        border: 1px solid lightgray;
+        border-radius: 5px;
+    }
+    .game_img_div{
+       display: flex;
+       align-items: center;
+       width: 180px;
+       height: 200px;
+    }
+    .game_img{
+        width: 180px;
+    }
+    .device_value{
+        font-size: 15px;
+        color: gray;
+    }
+    .price{
+        position: absolute;
+        bottom: 0;
+        left: 5px;
+        line-height: 35px;
+    }
+
+    /*버튼 css*/
+    .btn {
+        display: inline-block;
+        width: 84px;
+        position: absolute;
+        bottom: 10px;
+        right: 10px;
+        border: 0;
+        padding: 5px 10px;
+        text-align: center;
+        color: white;
+        font-weight: 600;
+        font-size: 16px;
+        border-radius: 5px;
+        /*line-height: 30px;*/
+    }
+    .btn:active {
+        bottom: 5px;
+    }
+
+    .description{
+        margin-top: 20px;
+    }
+</style>
+{% endblock %}
+{% block content %}
+  <div class="game_container">
+    <div class="game_contents">
+      <img src="{{game.game_image.url}}">
+      <div>
+        <h1 class="display-6">{{ game.game_name }}</h1>
+        <p><span class="badge badge-secondary">Price</span>{% load humanize %}&#8361;{{game.game_rfee | floatformat:'0' | intcomma}}
+            <br><span>플랫폼: {{game.device_value}}</span>
+        </p>
+        {% if request.session.authUser is None %}
+        {% else %}
+        {% if already == True %}
+            <p style="color: red;">이미 대여 중입니다.</p>
+        {% elif authuser.overdue != 0 %}
+            <p style="color: red;">연체 중입니다.</p>
+        {% else %}
+    <a href="{{ game.get_grental_url }}" class="btn blue rounded">대여하기</a>
+    {% endif %}
+      {% endif %}
+      </div>
+    </div>
+    <div class="description">
+        <h5>게임 설명</h5>
+        <p>{{ game.game_description|safe }}</p>
+    </div>
+
+
+  </div>
+<div class="command">
+  <p style="margin: 10px 0;">추천게임</p>
+  <div class="command_list">
+    {% for rg in command_games %}
+    <a href="{% if rg.game_stock != 0 %}{{rg.get_gabsolute_url}}{% else %}{{rg.get_greserve_url}}{% endif %}"><div class="game">
+                    <div class="game_img_div">
+                        <img class="game_img" src="{{rg.game_image.url}}" alt="Game image">
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">{{rg.game_name}}</h5>
+                        <span class="device_value">{{rg.device_value}}</span>
+                        <p class="card-text"><span class="price">{{rg.game_rfee|intcomma}}원</span></p>
+                    </div>
+    </div>
+    </a>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

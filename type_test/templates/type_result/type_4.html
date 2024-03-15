@@ -1,0 +1,114 @@
+{% extends 'base.html' %}
+{% block title %}NoPainNoGame type4{% endblock %}
+{% block script %}
+{% endblock %}
+{% block style %}
+<style>
+    div.container{
+        background-image: url("../../../static/image/ty4_bg.png");
+        background-size: 64px;
+        background-repeat: repeat;
+        font-family: 'Dunggeunmo', sans-serif;
+    }
+    div.result{
+        margin: 0 auto;
+    }
+    h1{
+        text-align: center;
+    }
+    div.result-image{
+        text-align: center;
+    }
+    div.result-content{
+        margin: 0 auto;
+        width: 680px;
+        padding: 30px 37px;
+        background: url(../../../static/image/result-content.png) no-repeat center center/100% 100%;
+        line-height: 1.8em;
+    }
+    div.result-content img{
+        position: relative;
+        bottom: 100px;
+        left: 400px;
+        bottom: -25px;
+    }
+    div.result-content p{
+        font-size: 1.1em;
+    }
+    span.result-title{
+        font-size: 1.3em;
+        font-weight: 600;
+    }
+    span.result-title2{
+        color: rgb(2, 80, 163);
+        font-weight: 600;
+    }
+    span.red{
+        color: crimson;
+    }
+    span.blue{
+        color: royalblue;
+    }
+    span.orange{
+        color: orange;
+    }
+    span.purple{
+        color: rebeccapurple;
+    }
+    span.green{
+        color: darkgreen;
+    }
+    div.button-area{
+        display: flex;
+        margin: 0 auto;
+        width: 275px;
+        line-height: 30px;
+        background: url(../../../static/image/test_sign.png) no-repeat center center/100% 100%;
+    }
+    div.button-area a{
+        margin: 0 auto;
+        padding: 30px;
+        font-size: 1.2em;
+        font-weight: 600;
+        color: #341E12FF;
+    }
+</style>
+{% endblock %}
+{% block content %}
+{% if request.session.authUser is None %}
+비로그인 상태
+{% else %}
+<div class="result">
+    <div class="result-image">
+        <img src="../../../static/image/ty4_explorer.png" width="50%">
+    </div>
+
+<h1>[재기발랄 모험가]&#x1F344;</h1>
+    <div class="result-content">
+        <p><span class="result-title">&#9757;결과내용</span><br>
+            <span class="red">새로운 모험과 새로운 공간</span>을 좋아하는 당신!<br>
+            캐릭터를 조작하고 <span class="orange">팀을 꾸려 목표달성을 하는 게임을 좋아하는 유형!</span><br>
+            아이템을 업그레이드 시켜 더 강해질 수록 게임에 희열을 느끼는 것을<br>
+            좋아하는군요?<br>
+            그래픽 또한 현실성이 있어 <span class="green">생동감이 높은 게임</span>을 좋아하구요!<br>
+            이런 게임은 <span class="blue">규칙이 엄격하고 조작또한 복잡</span>하여 게임을 하기위해선<br>
+            섬세함이 필요합니다.<br>
+            다른 유형의 게임들에 비해 <span class="purple">난이도가 높고 매니아층이 많아요!</span><br>
+            퀘스트를 깨고 스토리를 보는것을 좋아하는데 이 경우 게임의 시간이<br>
+            오래걸리기 때문에 고도의 집중력이 필요하겠네요!<br>
+            <br>
+            &#128150;<span class="result-title2">한번쯤 해볼만한 게임</span><br>
+            &#35;메이플스토리 &#35;젤다의 전설 &#35;검은사막 &#35;어몽어스<br>
+            &#9876;<span class="result-title2">하면 스트레스 받는 게임</span><br>
+            &#35;배틀그라운드 &#35;카트라이더 &#35;오버워치<br>
+            &#129308;<span class="result-title2">뜻밖의 능력치</span><br>
+            &#45; 집중력이 뛰어남<br>
+    </p>
+        <img src="../../../static/image/ty4_explorer2.png" width="200px">
+    </div>
+</div>
+<div class="button-area">
+    <a href="{% url 'type_test:type_test' %}">테스트 다시하기</a>
+</div>
+{% endif %}
+{% endblock %}

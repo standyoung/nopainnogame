@@ -1,0 +1,237 @@
+{% extends 'base.html' %}
+{% block title %}NoPainNoGame{% endblock %}
+{% block script %}
+{% endblock %}
+{% block style %}
+<link rel="preconnect" href="https://fonts.googleapis.com" xmlns="http://www.w3.org/1999/html">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400&display=swap" rel="stylesheet">
+<script>
+    // html dom 이 다 로딩된 후 실행된다.
+    $(document).ready(function(){
+        // menu를 클릭했을때
+        $(".menu").click(function(){
+            var submenu = $(this).next("p");
+            // submenu 가 화면상에 보일때는 위로 부드럽게 접고 아니면 아래로 부드럽게 펼치기
+            if( submenu.is(":visible") ){
+                submenu.slideUp();
+            }else{
+                submenu.slideDown();
+            }
+        });
+    });
+</script>
+
+<style>
+    div.container{
+        background: #0F4A84;
+        padding: 50px;
+        font-family: "Noto Sans KR",sans-serif;
+    }
+    div.content{
+        background: #EDE7C5;
+    }
+    h1, h2, h3, p{
+        margin: 0;
+    }
+    h3{
+        font-size: 18px;
+        color:#0F4A84;
+    }
+    p{
+        margin-top: 4px;
+        font-size: 16px;
+        font-weight: 300;
+        line-height: 150%;
+    }
+    header.how_to{
+        padding: 45px 0;
+        background: url("../../../static/image/how_to_pick.jpg") no-repeat;
+        background-size: cover;
+        background-position: center;
+        text-align: center;
+        color: white;
+    }
+    header.how_to h1{
+        font-weight: bold;
+    }
+    section.section1, section.section2, section.section3, section.section4{
+        overflow: hidden;
+        margin: 64px 0 0;
+        padding: 24px 0;
+    }
+    section.section5{
+        margin: 64px 0 25px 0;
+        padding: 16px 130px 80px;
+    }
+    section.section5 h1{
+        text-align: center;
+        line-height: 150%;
+    }
+
+
+    div.clean_device_img1, div.clean_device_img2, div.clean_device_img3, div.clean_device_img4{
+        float: left;
+        text-align: center;
+        width: 50%;
+    }
+    div.clean_device_article1, div.clean_device_article2, div.clean_device_article3, div.clean_device_article4{
+        float: left;
+        width: 50%;
+    }
+
+    .menu {cursor:pointer;}
+    .hide {display:none;}
+    section.section5 h1{
+        padding: 16px 0;
+        font-size: 18px;
+    }
+    p.menu{
+        font-size: 18px;
+        margin: 0;
+        padding: 16px 0px 16px 24px;
+    }
+    p.hide{
+        font-size: 14px;
+        line-height: 150%;
+        margin: 0;
+        padding: 0 0 16px 40px;
+    }
+</style>
+{% endblock %}
+{% block content %}
+<div class="content">
+<header class="how_to">
+    <h1>금방 끝나는 반납 방법</h1>
+    <p>수거는 주서영이 할게요</p>
+</header>
+
+<section class="section1">
+    <div class="clean_device_img1">
+        <img src="../../../static/image/how_to_pick_1.jpg" alt="반납하루전" width="300px">
+    </div>
+    <div class="clean_device_article1">
+        <h3>
+            1. 반납 하루 전
+        </h3>
+        <p>
+            반납 접수는 미리하기<br>
+            반납일 하루 전 발송된 카톡에 따라서 미리 반납 접수해주세요!
+        </p>
+    </div>
+</section>
+<section class="section2">
+    <div class="clean_device_img2">
+        <img src="../../../static/image/how_to_pick_2.jpg" alt="반납일" width="300px">
+    </div>
+    <div class="clean_device_article2">
+        <h3>
+            2. 반납일 D-day
+        </h3>
+        <p>
+            픽가방에 구성품 담기<br>
+            구성품이 누락되면 추가 배송비가 부과됩니다.<br>
+            구성품을 모두 챙겨주세요!
+        </p>
+    </div>
+</section>
+<section class="section3">
+    <div class="clean_device_img3">
+        <img src="../../../static/image/how_to_pick_3.jpg" alt="반납일" width="300px">
+    </div>
+    <div class="clean_device_article3">
+        <h3>
+            3. 반납일 D-day
+        </h3>
+        <p>
+            문 앞에 내놓기<br>
+            배송 받으신 대로 배송 받은 ‘장소’에 놔주세요.<br>
+            22시 이후 비대면으로 수거합니다.
+        </p>
+    </div>
+</section>
+<section class="section4">
+    <div class="clean_device_img4">
+        <img src="../../../static/image/how_to_pick_4.jpg" alt="반납이후" width="300px">
+    </div>
+    <div class="clean_device_article4">
+        <h3>
+            4. 반납 이후
+        </h3>
+        <p>
+            반납 확인하기<br>
+            제품 파손 등 여부에 따라서 위약금이 청구될 수 있어요.<br>
+            검수가 완료되면 알림을 발송해드리니, 확인해주세요.<br>
+        </p>
+    </div>
+</section>
+
+<section class="section5">
+<h1>자주 묻는 질문</h1>
+    <p class="menu">Q.제품은 언제 도착하나요?</p>
+        <p class="hide">
+            A.대여 시작일 하루 전 22시부터 배송이 시작됩니다.
+            <br>
+            배송이 늦은 시간에 이루어지기 때문에 배송 시 특이사항(ex.공동현관 비밀번호)을 잊지말고 기입해주세요.
+        </p>
+
+    <p class="menu">Q.제품에 하자가 있어요.</p>
+        <p class="hide">
+            A.제품들은 검수 및 소독이 완료된 리퍼 제품으로 생활기스가 있을 수 있습니다.
+            <br>안심하고 쓰셔도 됩니다😊
+            <br>제품이 작동하지 않을 시 고객센터로 연락주시면 빠르게 도와드리겠습니다.
+        </p>
+
+    <p class="menu">Q.여러 제품을 동시에 대여할 수 있나요?</p>
+        <p class="hide">
+            A.기기의 경우 하나만 대여가 가능합니다. 게임은 여러 개의 제품 대여가 가능합니다.
+            <br><font color ="#b7660">* 걱정마세요!
+            <br>배송비는 묶음 결제와 금액은 똑같습니다.
+            </font>
+        </p>
+
+    <p class="menu">Q.제가 결제하고 가족/친구가 써도 되나요?</p>
+        <p class="hide">
+            A.제품 이용은 가능하지만, 제품의 분실 및 훼손에 대한 책임은 친구/가족에게 양도할 수 없습니다.
+        </p>
+
+    <p class="menu">Q.여러 제품을 동시에 대여할 수 있나요?</p>
+        <p class="hide">
+            A.기기의 경우 하나만 대여가 가능합니다. 게임은 여러 개의 제품 대여가 가능합니다.
+            <br><font color ="#b7660">* 걱정마세요!
+            <br>배송비는 묶음 결제와 금액은 똑같습니다.
+            </font>
+        </p>
+
+    <p class="menu">Q.제가 결제하고 가족/친구가 써도 되나요?</p>
+        <p class="hide">
+            A.제품 이용은 가능하지만, 제품의 분실 및 훼손에 대한 책임은 친구/가족에게 양도할 수 없습니다.
+        </p>
+
+    <p class="menu">Q.반납 요청은 어떻게 하나요?</p>
+        <p class="hide">
+            A.반납일 하루 전 반납 요청을 위해 알림이 발송됩니다.
+            <br>"마이페이지 > 기기･게임대여목록"에서 반납 요청하실 수 있습니다.
+        </p>
+
+    <p class="menu">Q.반납 날짜를 못 지켰어요.</p>
+        <p class="hide">
+            A.연락이 닿지 않거나 연체된 기간 이후에도 반납하지 않으실 경우 제품정가의 150%에 해당하는
+            <br>금액이 청구될 수 있습니다.
+            <br>자세한 안내사항은 고객센터로 연락주세요.
+        </p>
+
+    <p class="menu">Q.대여 이용 중 제품이 파손됐어요.</p>
+        <p class="hide">
+            A.파손/분실된 제품 및 구성품은 동의하신 이용약관에 따라 보상금액이 청구될 수 있습니다.
+        </p>
+
+    <p class="menu">Q.제품 사용방법이 궁금해요!</p>
+        <p class="hide">
+            A.대여하신 제품의 상세페이지에서 제품 정보를 확인하실 수 있습니다.
+            <br>*대여 시 사용방법 메뉴얼을 동봉해드리지 않는 이유는 분실 및 훼손에 대한 우려가 있어
+            <br>동봉해드리지 않고 있습니다. 이 점 양해바랍니다.
+        </p>
+</section>
+</div>
+{% endblock %}

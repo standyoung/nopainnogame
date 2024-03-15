@@ -1,0 +1,238 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Game Reserve{% endblock %}
+{% block style %}
+<link rel="stylesheet" href="{% static 'css/button.css' %}">
+<style>
+    .overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        visibility: hidden;
+        transition: opacity 500ms;
+        opacity: 0;
+        background-color: rgba(0,0,0,0.5);
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        height: 100%;
+    }
+    .overlay:target {
+        visibility: visible;
+        opacity: 1;
+    }
+    .reserve_window{
+        position: absolute;
+        width: 400px;
+        height: 200px;
+        top: 50%;
+        left: 50%;
+        background-color: white;
+        margin: 0;
+        padding: 10px;
+        transform: translate(-50%, -50%);
+        border-radius: 5px;
+    }
+    form{
+        position: absolute;
+        bottom: 7px;
+        right: 7px;
+        height: 30px;
+    }
+  input{background: #6698cb;}
+  input {box-shadow: 0px 4px #5c8ab8;background-color: #6698cb;}
+  input:active {box-shadow: 0 0 #6698cb; background-color: #608fbf; bottom:6px;}
+
+  .exit{background: #fa5a5a;}
+  .exit{box-shadow:0px 4px 0px #E04342;background-color: #fa5a5a;}
+  .exit:active {box-shadow: 0 0 #ff4c4b; background-color: #ff4c4b; bottom:6px;}
+
+  .exit{
+    display: inline-block;
+    position: absolute;
+    bottom: 10px;
+    right: 90px;
+    text-align: center;
+    width: 70px;
+    height: 30px;
+    color: white;
+    border-radius: 5px;
+    font-size: 14px;
+    padding-top: 3px;
+    line-height: 24px;
+    border: 0;
+  }
+  input{
+    display: inline-block;
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    cursor: pointer;
+    font-size: 14px;
+    text-align: center;
+    width: 70px;
+    height: 30px;
+    color: white;
+    border-radius: 5px;
+    border: 0;
+    padding: 0;
+  }
+    .game_container{
+        position: relative;
+    }
+    p{
+        margin: 0;
+    }
+    h5{
+        font-size: 16px;
+        display: inline;
+    }
+    h1{
+        margin: 0;
+    }
+    .game_contents{
+        position: relative;
+        display: flex;
+    }
+    .game_contents div{
+        position: relative;
+        width: 690px;
+        margin-left: 50px;
+    }
+    .game_contents img{
+        display: block;
+        width: 400px;
+    }
+    .command{
+        margin-top: 100px;
+    }
+    .command_list{
+        display: flex;
+        justify-content: space-between;
+    }
+    .game{
+        position: relative;
+        padding: 5px;
+        width: 200px;
+        height: 290px;
+        border: 2px solid black;
+        border: 1px solid lightgray;
+        border-radius: 5px;
+    }
+    .game_img_div{
+       display: flex;
+       align-items: center;
+       width: 180px;
+       height: 200px;
+    }
+    .game_img{
+        width: 180px;
+    }
+    .device_value{
+        font-size: 15px;
+        color: gray;
+    }
+    .price{
+        position: absolute;
+        bottom: 0;
+        left: 5px;
+        line-height: 35px;
+    }
+
+    /*버튼 css*/
+    .btn {
+        display: inline-block;
+        width: 84px;
+        position: absolute;
+        bottom: 10px;
+        right: 10px;
+        border: 0;
+        padding: 5px 10px;
+        text-align: center;
+        color: white;
+        font-weight: 600;
+        font-size: 16px;
+        border-radius: 5px;
+        /*line-height: 30px;*/
+    }
+    .btn:active {
+        bottom: 5px;
+    }
+
+  .description{
+    margin-top: 20px;
+  }
+</style>
+{% endblock %}
+{% block content %}
+  <div class="game_container">
+    <div class="game_contents">
+      <img src="{{game.game_image.url}}">
+      <div>
+        <h1 class="display-6">{{ game.game_name }}</h1>
+        <p><span class="badge badge-secondary">Price</span>{% load humanize %}&#8361;{{game.game_rfee | floatformat:'0' | intcomma}}
+            <br><span>플랫폼: {{game.device_value}}</span>
+        </p>
+        {% if request.session.authUser is None %}
+    {% else %}
+    {% if u_already > 0 %}
+          <p style="color: red;">이미 해당 게임을 예약 중입니다.</p>
+    {% elif authuser.overdue != 0 %}
+        <p style="color: red;">연체 중입니다.</p>
+    {% else %}
+    {% if overdue == True %}
+    <p style="color: red;">현재 연체 중인 게임입니다. 대여 가능한 날짜가 아래 표기된 날짜보다 늦을 수 있습니다.</p>
+    {% endif %}
+    <p>나의 예약 순서: {{ game_reserve_count|add:"1" }} 번째</p>
+    <p>예상 대여 가능 기간: {{due_start}} ~ {{due_end}}</p>
+    <p>예상 대여 시작 날짜: {{ due_date }}</p>
+    <a href="#popup" class="btn cyan rounded">예약하기</a>
+    {% endif %}
+      </div>
+    </div>
+    <div class="description">
+        <h5>게임 설명</h5>
+        <p>{{ game.game_description|safe }}</p>
+    </div>
+
+    {% endif %}
+  </div>
+<div class="command">
+  <p style="margin: 10px 0;">추천게임</p>
+  <div class="command_list">
+    {% for rg in command_games %}
+    <a href="{% if rg.game_stock != 0 %}{{rg.get_gabsolute_url}}{% else %}{{rg.get_greserve_url}}{% endif %}"><div class="game">
+                    <div class="game_img_div">
+                        <img class="game_img" src="{{rg.game_image.url}}" alt="Game image">
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">{{rg.game_name}}</h5>
+                        <span class="device_value">{{rg.device_value}}</span>
+                        <p class="card-text"><span class="price">&#8361;{{rg.game_rfee}}</span></p>
+                    </div>
+    </div>
+    </a>
+    {% endfor %}
+  </div>
+</div>
+<div id="popup" class="overlay">
+  <div class="reserve_window">
+    예약하기
+    <hr>
+
+     <p>대여 가능한 날짜는 {{due_date}} 입니다.<br>
+         예약하시겠습니까?
+     </p>
+
+    <form method="POST" action="{% url 'rental:game_reserve' game.game_id %}">
+        {% csrf_token %}
+      <a href="#" class="exit">
+        취소
+      </a>
+      <input type="submit" value="예약하기">
+    </form>
+
+  </div>
+
+</div>
+{% endblock %}

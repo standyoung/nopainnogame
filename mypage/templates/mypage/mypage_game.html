@@ -1,0 +1,146 @@
+{% extends 'mypage/mypage.html' %}
+{% load static %}
+{% block title %}NoPainNoGame{% endblock %}
+{% block script %}
+<script>
+
+</script>
+{% endblock %}
+{% block style %}
+<link rel="stylesheet" href="{% static 'css/button.css' %}">
+<style>
+    ul{
+        padding: 0;
+        margin: 0;
+    }
+    li{
+        list-style: none;
+    }
+    legend{
+        font-weight: bold;
+        margin: 0;
+    }
+    .container{
+        display: flex;
+    }
+    .mypage_menu{
+        width: 200px;
+        text-align: center;
+        margin-right: 20px;
+    }
+    .mypage_menu ul{
+        border: 1px solid black;
+        border-radius: 5px;
+        padding: 10px;
+    }
+    .mypage_menu li{
+        border-bottom: 1px solid lightgray;
+        height: 40px;
+        line-height: 40px;
+    }
+
+    .mypage_main table{
+        text-align: center;
+        border-top: 1px solid black;
+        border-collapse: collapse;
+    }
+    .mypage_main th{
+        background-color: gray;
+        color: white;
+        width: 200px;
+    }
+    .mypage_main th, .mypage_main td{
+        border-bottom: 1px solid black;
+        border-left: 1px solid black;
+        padding: 5px;
+    }
+    .mypage_main th:first-child, .mypage_main td:first-child {
+        border-left: none;
+    }
+    .mypage_main legend{
+        margin: 5px;
+        margin-left: 0;
+    }
+    /*버튼 css*/
+    .btn {
+        position: relative;
+        border: 0;
+        padding: 5px 10px;
+        height: 28px;
+        margin: 10px;
+        display: inline-block;
+        text-align: center;
+        color: white;
+        font-weight: 600;
+        font-size: 14px;
+        border-radius: 5px;
+    }
+    .btn:active {
+        top: 4px;
+    }
+</style>
+{% endblock %}
+{% block contents %}
+{% if request.session.authUser is None %}
+비로그인 상태
+{% else %}
+<div class="mypage_main">
+    반납 신청은 반드시 반납 예정일 하루 전날까지 하시오.
+    <hr>
+
+    <legend>게임 대여 목록</legend>
+    {% if user_grental|length == 0 %}
+        대여 목록이 없습니다.
+    {% else %}
+    <table>
+        <thead>
+        <th style="width: 150px;">게임 이름</th>
+        <th>대여 시작 일자</th>
+        <th>반납 일자</th>
+        <th>반납 신청</th>
+        </thead>
+        <tbody>
+        {% for gr in user_grental %}
+        <tr>
+            <td>{{ gr.game_id }}</td>
+            <td>{{ gr.grental_date }}</td>
+            <td>{{ gr.greturn_date }}{% if gr.overdue == None %}(예정){% else %}{% endif %}</td>
+            <td>
+                {% if gr.overdue == None %}
+                <a href="{% url 'mypage:game_return' gr.game_rental_id %}" class="btn blue rounded">반납 신청</a>{% else %}반납완료
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    {% endif %}
+    <br>
+    <legend>게임 예약 목록</legend>
+    {% if user_greserve|length == 0 %}
+        예약 목록이 없습니다.
+    {% else %}
+    <table>
+        <thead>
+        <th style="width: 150px;">게임 이름</th>
+        <th>예약 일자</th>
+        <th>예상 대여 시작 일자</th>
+        <th>예약 취소</th>
+        </thead>
+        <tbody>
+        {% for grs in user_greserve %}
+        <tr>
+            <td>{{ grs.game_id }}</td>
+            <td>{{ grs.game_reserve_date }}</td>
+            <td>{{ grs.game_due_date }}</td>
+            <td>
+                <a href="{% url 'mypage:greserve_delete' grs.game_reserve_id %}" class="btn red rounded">예약 취소</a>
+            </td>
+        </tr>
+        {% endfor %}
+        </tbody>
+        {% endif %}
+    </table>
+    {% endif %}
+</div>
+{% endblock %}

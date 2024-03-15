@@ -1,0 +1,238 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}NoPainNoGame Board{% endblock %}
+{% block script %}
+{% endblock %}
+{% block style %}
+<link rel="stylesheet" href="{% static 'css/button.css' %}">
+<style>
+*{box-sizing:border-box;}
+    .container{
+        display: flex;
+        justify-content: space-between;
+    }
+    ul{
+        margin: 0;
+    }
+
+    .category{
+        color: #F6F1EBFF;
+        font-family: 'Dunggeunmo', sans-serif;
+        width: 200px;
+        height: 540px;
+        background-image: url({% static 'image/category.png' %});
+        text-align: center;
+        margin-right: 20px;
+        padding-top: 52px;
+    }
+    .category ul{
+        padding: 8px;
+    }
+    .category li{
+        height: 72px;
+        line-height: 72px;
+        margin-bottom: 28px;
+        font-size: 17px;
+        font-weight: bold;
+    }
+
+    .none_type{
+        background-image: url({% static 'image/header_back_2.png' %});
+        background-size: 60px;
+    }
+
+    .type1{
+        background-image: url({% static 'image/ty1_bg.png' %});
+        background-size: 38px;
+    }
+    .type2{
+        background-image: url({% static 'image/ty2_bg.png' %});
+        background-size: 38px;
+    }
+    .type3{
+        background-image: url({% static 'image/ty3_bg.png' %});
+        background-size: 38px;
+    }
+    .type4{
+        background-image: url({% static 'image/ty4_bg.png' %});
+        background-size: 38px;
+    }
+
+    /*버튼 css*/
+    .btn {
+        position: absolute;
+        right: 0;
+        bottom: 10px;
+        line-height: 24.8px;
+        border: 0;
+        padding: 3px;
+        width: 50px;
+        height: 25px;
+        text-align: center;
+        color: white;
+        font-weight: 600;
+        font-size: 12px;
+        border-radius: 3px;
+        cursor: pointer;
+    }
+    .btn:active{
+        bottom: 5px;
+    }
+
+    .posts h3{
+        font-size: 20px;
+        margin: 0;
+    }
+    .posts{
+        position: relative;
+        width: 900px;
+    }
+    .posts_header{
+        position: relative;
+        height: 54px;
+        padding-top: 15px;
+    }
+    .posts table{
+        width: 100%;
+        text-align: center;
+        border-bottom: 1px solid black;
+        border-collapse: collapse;
+    }
+    .posts tr{
+        height: 40px;
+        border-top: 1px solid gray;
+    }
+    .posts th:nth-child(1){
+        width: 110px;
+    }
+    .posts th:nth-child(2){
+        width: 200px;
+    }
+    .posts th:nth-child(3){
+        width: 320px;
+    }
+    .posts th:nth-child(4){
+        width: 270px;
+    }
+    .posts td{
+        text-overflow: ellipsis;
+        height: 40px;
+        max-height: 40px;
+    }
+    .active{
+        color: yellow;
+        font-weight: bold;
+    }
+    .page{
+        margin-top: 20px;
+        border: 0;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+    }
+    .page li{
+        margin-left: 10px;
+        margin-right: 10px;
+    }
+    .c_page a{
+        color: blue;
+    }
+    .post_title{
+        max-width: 318px;
+        max-height: 22.4px;
+        text-align: left;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+</style>
+{% endblock %}
+{% block content %}
+<div class="category">
+    <ul>
+        <li class="none_type"><a href="{% url 'board:board' %}" class="{% if not current_type%}active{% endif %}">All</a></li>
+        {% for pt in p_types %}
+        <li class="type{{pt.p_type}}"><a href="{{pt.get_ptype_url}}" class="{% if current_type.p_type == pt.p_type %}active{% endif %}">
+            {% if pt.p_type == '1' %}
+            날쌘돌이 구름이
+            {% elif pt.p_type == '2' %}
+            심플프리덤 감자
+            {% elif pt.p_type == '3' %}
+            두뇌풀가동 전사
+            {% elif pt.p_type == '4' %}
+            재기발랄 모험가
+            {% endif %}
+        </a></li>
+        {% endfor %}
+    </ul>
+</div>
+
+<div class="posts">
+    <div class="posts_header">
+        <h3>{% if not current_type %}모든 카테고리{% else %}
+                {% if current_type.p_type == '1' %}
+                날쌘돌이 구름이{% elif current_type.p_type == '2' %}
+                심플프리덤 감자{% elif current_type.p_type == '3' %}
+                두뇌풀가동 전사{% elif current_type.p_type == '4' %}
+                재기발랄 모험가{% endif %}들의 공간{% endif %}</h3>
+        <a class="btn blue rounded" href="{% url 'board:board_write' %}">글쓰기</a>
+    </div>
+    <table>
+        <thead>
+            <th>카테고리</th>
+            <th>작성자</th>
+            <th>제목</th>
+            <th>작성일</th>
+        </thead>
+
+        {% for p in postlist %}
+        <tr>
+            <td>{% if p.p_type_id == 1 %}
+                구름이{% elif p.p_type_id == 2 %}
+                감자{% elif p.p_type_id == 3 %}
+                전사{% elif p.p_type_id == 4 %}
+                모험가{% endif %}</td>
+            <td>{{p.member_id}}</td>
+            <td><a href="{{p.get_post_url}}" style="display: block;"><div class="post_title">{{p.postname}}</div></a></td>
+            <td>{{p.post_date}}</td>
+        </tr>
+        {% endfor %}
+    </table>
+<!-- 페이징처리 시작 -->
+    <ul class="page">
+        <!-- 이전페이지 -->
+        {% if postlist.has_previous %}
+        <li>
+            <a href="?page={{ postlist.previous_page_number }}">이전</a>
+        </li>
+        {% else %}
+        <li>
+            <a tabindex="-1" aria-disabled="true" href="#">이전</a>
+        </li>
+        {% endif %}
+        <!-- 페이지리스트 -->
+
+        {% for page_number in postlist.paginator.page_range %}
+            {% if page_number == postlist.number %}
+            <li class="c_page">
+                <a href="?page={{ page_number }}">{{ page_number }}</a>
+            </li>
+            {% else %}
+            <li>
+                <a href="?page={{ page_number }}">{{ page_number }}</a>
+            </li>
+            {% endif %}
+        {% endfor %}
+        <!-- 다음페이지 -->
+        {% if postlist.has_next %}
+        <li>
+            <a href="?page={{ postlist.next_page_number }}">다음</a>
+        </li>
+        {% else %}
+        <li>
+            <a tabindex="-1" aria-disabled="true" href="#">다음</a>
+        </li>
+        {% endif %}
+    </ul>
+    <!-- 페이징처리 끝 -->
+</div>
+{% endblock %}

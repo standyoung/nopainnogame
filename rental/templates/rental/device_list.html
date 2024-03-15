@@ -1,0 +1,252 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load humanize %}
+{% block title %}Category Page{% endblock %}
+{% block style %}
+<style>
+    h5{
+        font-size: 16px;
+        display: inline;
+    }
+    p{
+        margin: 0;
+    }
+    .form{
+        margin-left: 10px;
+    }
+    .active{
+        color:red;
+    }
+    .options{
+        position: relative;
+    }
+    .sorts{
+        position: absolute;
+        right: 10px;
+        top: 10px;
+        display: flex;
+    }
+    .device_list{
+        display:flex;
+        flex-wrap: wrap;
+        padding: 28px;
+        border: 2px solid white;
+    }
+    .device{
+        position: relative;
+        padding: 10px;
+        width: 200px;
+        height: 320px;
+        margin-bottom: 20px;
+        margin-right: 20px;
+        border: 1px solid lightgray;
+        border-radius: 5px;
+    }
+    .device:nth-child(5n){
+        margin-right: 0;
+    }
+    .pub{
+        font-size: 15px;
+        color: gray;
+    }
+    .device_img_div{
+        position: relative;
+       display: flex;
+       align-items: center;
+       width: 180px;
+       height: 230px;
+    }
+    .device_img_div p{
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        font-size: 13px;
+        margin: 0;
+        background-color: white;
+    }
+    .device_img{
+        width: 180px;
+    }
+    ul{
+        padding: 0;
+    }
+    li{
+        list-style: none;
+    }
+    .price{
+        position: absolute;
+        bottom: 0;
+        left: 5px;
+        line-height: 35px;
+    }
+    .device_able{
+        position: absolute;
+        line-height: 35px;
+        bottom: 0;
+        right: 35px;
+        margin: 0;
+    }
+    .like img{
+        width: 25px;
+    }
+    .like{
+        position: absolute;
+        bottom: 0;
+        right: 5px;
+    }
+    .page{
+        width: 100%;
+        display: flex;
+        justify-content: center;
+    }
+    .page li{
+        margin-left: 10px;
+        margin-right: 10px;
+    }
+    .c_page a{
+        color: blue;
+    }
+</style>
+{% endblock %}
+{% block script %}
+<script>
+ $(document).ready(function() {
+    $('select[name=device_sort]').change(function () {
+        device_sort = $('select[name=device_sort]').val();
+        $('.form').submit();
+    });
+});
+function check() {
+    game_check = 1
+    $('.form2').submit();
+};
+function check1() {
+    game_check = None
+    $('.form2').submit();
+};
+</script>
+{% endblock %}
+{% block content %}
+<a href="{% url 'rental:device_list_all' %}" style="font-weight: 900;">기기 대여</a>
+<div class="">
+    <div class="options">
+        <div class="device_values">
+            <a href="{% url 'rental:device_list_all' %}" class="list-group-item {% if not current_value%}active{% endif %}">전체</a><br>
+            PlayStation :
+            {%for d in device_values %}
+                {% if d.platform == 'PS' %}
+                    <a href="{{d.get_absolute_url}}" class="list-group-item {% if current_value.values == d.values %}active{% endif %}">{{d.values}}</a>
+                {% endif %}
+            {% endfor %} |
+            Nintendo :
+            {%for d in device_values %}
+                {% if d.platform == 'ND' %}
+                    <a href="{{d.get_absolute_url}}" class="list-group-item {% if current_value.values == d.values %}active{% endif %}">{{d.values}}</a>
+                {% endif %}
+            {% endfor %}
+        </div>
+        <div class="sorts">
+            <form method="get" action="" class="form2">
+                {% if dc == 1 %}
+               <label for="device_check1">대여 가능한 게임만 보기</label><input name="device_check1" type="checkbox" id="device_check1" value="1" checked onclick="check1()">
+                {% else %}
+               <label for="device_check">대여 가능한 게임만 보기</label>
+                <input name="device_check" type="checkbox" id="device_check" value="1" onclick="check()">
+                {% endif %}
+            </form>
+            <form method="get" action="" class="form">
+                <select name="device_sort" id="device_sort">
+                    <option value="0" selected>정렬</option>
+                    <option value="01">인기순</option>
+                    <option value="02">가격 낮은 순</option>
+                    <option value="03">가격 높은 순</option>
+                    <option value="04">출시일 순</option>
+                </select>
+            </form>
+        </div>
+
+    </div>
+    <div class="col">
+        <br>
+        <div class="alert alert-info" role="alert">
+            {% if current_value %}
+                {{current_value.values}}
+            {% else %}
+                전체 기기
+            {% endif %}
+        </div>
+<div class="device_list">
+            {% for rd in devices %}
+                <a href="{% if rd.device_check == 0 %}
+                           {{rd.get_dabsolute_url}}
+                          {% else %}
+                            {{rd.get_dreserve_url}}
+                            {% endif %}">
+                    <div class="device">
+                    <div class="device_img_div">
+                        <img class="device_img" src="{{rd.device_image.url}}" alt="device image">
+                        <p>상태 : {{ rd.device_state }}</p>
+                    </div>
+                    <div>
+                        <h5 class="card-title">{{rd.device_name|upper}}</h5>
+                        <span class="pub">{{rd.device_pub|date:"Y"}}</span>
+                        <p class="price">{{rd.device_rfee|intcomma}}원</p>
+                        {% if rd.device_check == 0 %}
+                            <p class="device_able">대여 가능</p>
+                        {% else %}
+                            <p class="device_able">예약하기</p>
+                        {% endif %}
+                        <a class="like" href="{% url 'rental:device_like' rd.device_id %}">
+                            {% if i in rd.device_like.all %}
+                            <img src="{% static 'image/like.png' %}">
+                            {% else %}
+                            <img src="{% static 'image/dislike.png' %}">
+                            {% endif %}
+                        </a>
+                    </div>
+                </div></a>
+            {% endfor %}
+        </div>
+        <!-- 페이징처리 시작 -->
+    <ul class="page">
+        <!-- 이전페이지 -->
+        {% if devices.has_previous %}
+        <li>
+            <a href="?page={{ devices.previous_page_number }}">이전</a>
+        </li>
+        {% else %}
+        <li>
+            <a tabindex="-1" aria-disabled="true" href="#">이전</a>
+        </li>
+        {% endif %}
+        <!-- 페이지리스트 -->
+
+        {% for page_number in devices.paginator.page_range %}
+            {% if page_number == devices.number %}
+            <li class="c_page">
+                <a href="?page={{ page_number }}">{{ page_number }}</a>
+            </li>
+            {% else %}
+            <li>
+                <a href="?page={{ page_number }}">{{ page_number }}</a>
+            </li>
+            {% endif %}
+        {% endfor %}
+        <!-- 다음페이지 -->
+        {% if devices.has_next %}
+        <li>
+            <a href="?page={{ devices.next_page_number }}">다음</a>
+        </li>
+        {% else %}
+        <li>
+            <a tabindex="-1" aria-disabled="true" href="#">다음</a>
+        </li>
+        {% endif %}
+    </ul>
+    <!-- 페이징처리 끝 -->
+
+
+    </div>
+</div>
+
+{% endblock %}

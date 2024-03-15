@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block title %}NoPainNoGame{% endblock %}
+{% block script %}
+<script>
+
+</script>
+{% endblock %}
+{% block style %}
+{% endblock %}
+{% block content %}
+
+<div class="mypage_menu">
+    <ul><legend>마이페이지</legend>
+        <li><a href="{% url 'mypage:mypage' %}">회원정보</a></li>
+        <li><a href="{% url 'mypage:mypage_game' %}">게임 대여/예약</a></li>
+        <li><a href="{% url 'mypage:mypage_device' %}">기기 대여/예약</a></li>
+        <li><a href="{% url 'mypage:mypage_like' %}">관심목록</a></li>
+        <li><a href="{% url 'mypage:mypage_board' %}">게시물관리</a></li>
+    </ul>
+</div>
+{% block contents %}
+{% endblock %}
+{% endblock %}

@@ -1,0 +1,267 @@
+{% extends 'base.html' %}
+{% block title %}Category Page{% endblock %}
+{% load static %}
+{% load humanize %}
+{% block style %}
+<style>
+    .active{
+        color:red;
+    }
+    h5{
+        font-size: 16px;
+        display: inline;
+    }
+    p{
+        margin: 0;
+    }
+    label:hover{
+         cursor: pointer;
+    }
+    input#toggle1 { display: none; }
+    input#toggle1 + .menu1 { display: none; }
+    input#toggle1:checked + .menu1 { display: block; }
+
+
+    input#toggle2 { display: none; }
+    input#toggle2 + .menu2 { display: none; }
+    input#toggle2:checked + .menu2 { display: block; }
+
+    .options{
+        position: relative;
+    }
+    .sorts{
+        position: absolute;
+        right: 10px;
+        top: 10px;
+        display: flex;
+    }
+    .game_list{
+        display:flex;
+        flex-wrap: wrap;
+
+        padding: 30px;
+    }
+    .game{
+        position: relative;
+        padding: 5px;
+        width: 200px;
+        height: 330px;
+        border: 2px solid black;
+        margin-bottom: 20px;
+        margin-right: 20px;
+        border: 1px solid lightgray;
+        border-radius: 5px;
+    }
+    .game:nth-child(5n){
+        margin-right: 0;
+    }
+    .device_value{
+        font-size: 15px;
+        color: gray;
+    }
+    .game_img_div{
+       display: flex;
+       align-items: center;
+       width: 180px;
+       height: 200px;
+    }
+    .game_img{
+        width: 180px;
+    }
+    .options{
+        position: relative;
+    }
+    .sorts{
+        position: absolute;
+        right: 10px;
+        top: 10px;
+        display: flex;
+    }
+    .form{
+        margin-left: 10px;
+    }
+    .price{
+        position: absolute;
+        bottom: 0;
+        left: 5px;
+        line-height: 35px;
+    }
+    .game_able{
+        position: absolute;
+        line-height: 35px;
+        bottom: 0;
+        right: 35px;
+        margin: 0;
+    }
+    .like img{
+        width: 25px;
+    }
+    .like{
+        position: absolute;
+        bottom: 0;
+        right: 5px;
+    }
+    .page{
+        width: 100%;
+        display: flex;
+        justify-content: center;
+    }
+    .page li{
+        margin-left: 10px;
+        margin-right: 10px;
+    }
+    .c_page a{
+        color: blue;
+    }
+</style>
+{% endblock %}
+
+{% block script %}
+<script>
+$(document).ready(function() {
+    $('select[name=game_sort]').change(function () {
+        game_sort = $('select[name=game_sort]').val();
+        $('.form').submit();
+    });
+});
+function check() {
+    game_check = 1
+    $('.form2').submit();
+};
+function check1() {
+    game_check = None
+    $('.form2').submit();
+};
+</script>
+{% endblock %}
+{% block content %}
+<a href="{% url 'rental:game_list_all' %}" style="font-weight: 900;">게임 대여</a>
+    <div class="options">
+        <div>
+            <label class='text' for='toggle1'>
+                기기별로 보기
+            </label>
+            |
+            <label class='text' for='toggle2'>
+                장르별로 보기
+            </label>
+        </div>
+        <div>
+            <input type='checkbox' id='toggle1'>
+            <div class='menu1'>
+                <a href="{% url 'rental:game_list_all' %}" class="list-group-item {% if not current_device%}active{% endif %}">All</a>
+                {%for g in game_devices %}
+                    <a href="{{g.get_gdabsolute_url}}" class="list-group-item {% if current_device.values == g.values %}active{% endif %}">{{g.values}}</a>
+                {% endfor %}
+            </div>
+            <input type='checkbox' id='toggle2'>
+            <div class="menu2">
+                <a href="{% url 'rental:game_list_all' %}" class="list-group-item {% if not current_genre%}active{% endif %}">All</a>
+                {% for gg in game_genres %}
+                    <a href="{{gg.get_absolute_url}}" class="{% if current_genre.genre == gg.genre %}active{% endif %}">{{gg.genre}}</a>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="sorts">
+        <form method="get" action="" class="form2">
+            {% if gc %}
+           <label for="game_check1">대여 가능한 게임만 보기</label>
+            <input name="game_check1" type="checkbox" id="game_check1" value="1" checked onclick="check1()">
+            {% else %}
+           <label for="game_check">대여 가능한 게임만 보기</label>
+            <input name="game_check" type="checkbox" id="game_check" value="1" onclick="check()">
+            {% endif %}
+        </form>
+        <form method="get" action="" class="form">
+          <select name="game_sort" id="game_sort">
+            <option value="0" selected>정렬</option>
+            <option value="01">인기순</option>
+            <option value="02">가격 낮은 순</option>
+            <option value="03">가격 높은 순</option>
+          </select>
+        </form>
+        </div>
+        <div>{% if current_genre %}
+            {{current_genre.genre}}
+            {% elif current_device %}
+            {{current_device}}
+        {% else %}
+            전체 게임
+        {% endif %}
+        </div>
+    </div>
+<div class="row">
+    <div class="col">
+        <div class="alert alert-info" role="alert">
+
+        </div>
+        <div class="game_list">
+            {% for rg in games %}
+
+                <a href="{% if rg.game_stock != 0 %}{{rg.get_gabsolute_url}}{% else %}{{rg.get_greserve_url}}{% endif %}"><div class="game">
+                    <div class="game_img_div">
+                        <img class="game_img" src="{{rg.game_image.url}}" alt="Game image">
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">{{rg.game_name}}</h5>
+                        <span class="device_value">{{rg.device_value}}</span>
+                        <p class="card-text"><span class="price">{{rg.game_rfee|intcomma}}원</span></p>
+                        {% if rg.game_stock > 0 %}
+                            <p style="margin-top: 10px;">{{ rg.game_stock }}개</p>
+                            <p class="game_able">대여하기</p>
+                        {% else %}
+                            <p class="game_able">예약하기</p>
+                        {% endif %}
+                        <a class="like" href="{% url 'rental:game_like' rg.game_id %}">
+                            {% if i in rg.game_like.all %}
+                            <img src="{% static 'image/like.png' %}">
+                            {% else %}
+                            <img src="{% static 'image/dislike.png' %}">
+                            {% endif %}
+                        </a>
+                    </div>
+                </div></a>
+            {% endfor %}
+        </div>
+        <!-- 페이징처리 시작 -->
+    <ul class="page">
+        <!-- 이전페이지 -->
+        {% if games.has_previous %}
+        <li>
+            <a href="?page={{ games.previous_page_number }}">이전</a>
+        </li>
+        {% else %}
+        <li>
+            <a tabindex="-1" aria-disabled="true" href="#">이전</a>
+        </li>
+        {% endif %}
+        <!-- 페이지리스트 -->
+
+        {% for page_number in games.paginator.page_range %}
+            {% if page_number == games.number %}
+            <li class="c_page">
+                <a href="?page={{ page_number }}">{{ page_number }}</a>
+            </li>
+            {% else %}
+            <li>
+                <a href="?page={{ page_number }}">{{ page_number }}</a>
+            </li>
+            {% endif %}
+        {% endfor %}
+        <!-- 다음페이지 -->
+        {% if games.has_next %}
+        <li>
+            <a href="?page={{ games.next_page_number }}">다음</a>
+        </li>
+        {% else %}
+        <li>
+            <a tabindex="-1" aria-disabled="true" href="#">다음</a>
+        </li>
+        {% endif %}
+    </ul>
+    <!-- 페이징처리 끝 -->
+
+    </div>
+</div>
+
+{% endblock %}

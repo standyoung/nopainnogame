@@ -1,0 +1,128 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}NoPainNoGame - login{% endblock %}
+{% block style %}
+<link rel="stylesheet" href="{% static 'css/button.css' %}">
+<style>
+    .container{
+        background-image: url({% static 'image/header_back_3.png' %});
+        background-size: 95px auto;
+        padding-top: 60px;
+    }
+    .login_h{
+        text-align: center;
+        border: 8px solid transparent;
+        border-image-source: url({% static 'image/header_border.png' %});
+        border-image-slice: 12;
+        border-image-repeat: round;
+        font-family: 'NeoDunggeunmo', sans-serif;
+        color: #341E12FF;
+        text-shadow: -3px 0 #734425FF, 0 3px #734425FF, 3px 0 #734425FF, 0 -3px #734425FF;
+        width: 170px;
+        background-image: url({% static 'image/header_back_1.png' %});
+        background-size: 70px auto;
+        margin: 0 auto;
+        padding: 5px;
+    }
+    .login_f{
+        position: relative;
+        color: white;
+        display: block;
+        width: 340px;
+        height: 270px;
+        margin: 0 auto;
+        border: 8px solid transparent;
+        border-image-source: url({% static 'image/header_border.png' %});
+        border-image-slice: 12;
+        border-image-repeat: round;
+        background-image: url({% static 'image/header_back_1.png' %});
+        background-size: 70px auto;
+        padding: 20px;
+        font-weight: bold;
+    }
+    .login_f a{
+        color: white;
+    }
+    .login_f button{
+        position: absolute;
+        bottom: 10px;
+        right: 10px;
+    }
+    .login_f label{
+        display: inline-block;
+        width: 100px;
+        text-align: center;
+        padding: 15px 15px 15px 0;
+    }
+    .login_f input{
+        width: 140px;
+        line-height: 27px;
+        border: 1px solid #ccc;
+        border-radius: 3px;
+        margin-left: 10px;
+    }
+
+    .form-group{
+        padding: 12px 0;
+    }
+    .success{
+        padding: 42px 0;
+        text-align: center;
+    }
+    .success_d{
+        margin-top: 80px;
+        padding-left: 20px;
+    }
+    .success_d a{
+        padding-right: 10px;
+    }
+    /*버튼 css*/
+    .btn{
+        position: relative;
+        border: 0;
+        padding: 5px 15px;
+        display: inline-block;
+        text-align: center;
+        color: white;
+        font-weight: 600;
+        font-size: 14px;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+    .btn:active{
+        margin-bottom: -3px;
+    }
+</style>
+{% endblock %}
+{% block content %}
+
+<h1 class="login_h">Find ID</h1>
+<br><br>
+
+<form class="login_f" method = "POST">
+    {% if success %}
+    <div class="success">
+        <p>당신의 아이디는 <span style="color:#4D3E3D;font-weight:bold;background-color:#D4CDC1;">{{success}}</span> 입니다.</p>
+        <div class="success_d">
+            <a href="{% url 'account:login' %}">로그인 하기</a>
+            <a href="{% url 'account:find_pw' %}">비밀번호 찾기</a>
+        </div>
+    </div>
+    {% else %}
+    {% csrf_token %}
+
+    <div class="form-group">
+        <label for="member_name">이름</label>
+        <input type="text" class="form-control" name = "member_name" id="member_name" placeholder="이름">
+    </div>
+
+    <div class="form-group">
+        <label for="phone">전화번호</label>
+        <input type="text" class="form-control" name = "phone" id="phone" placeholder="전화번호">
+    </div>
+
+    <span style="color:yellow;font-size:15px;"><strong>{{ error }}</strong> </span>
+    <button type="submit" class="btn purple rounded">찾기</button>
+    {% endif %}
+</form>
+{% endblock %}

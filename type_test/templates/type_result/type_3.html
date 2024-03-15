@@ -1,0 +1,116 @@
+{% extends 'base.html' %}
+{% block title %}NoPainNoGame type3{% endblock %}
+{% block script %}
+{% endblock %}
+{% block style %}
+<style>
+    div.container{
+        background-image: url("../../../static/image/ty3_bg.png");
+        background-size: 64px;
+        background-repeat: repeat;
+        font-family: 'Dunggeunmo', sans-serif;
+    }
+    div.result{
+        margin: 0 auto;
+    }
+    h1{
+        text-align: center;
+    }
+    div.result-image{
+        text-align: center;
+    }
+    div.result-content{
+        margin: 0 auto;
+        width: 700px;
+        padding: 30px 37px;
+        background: url(../../../static/image/result-content.png) no-repeat center center/100% 100%;
+        line-height: 1.8em;
+    }
+    div.result-content img{
+        position: relative;
+        bottom: 100px;
+        left: 400px;
+        bottom: -25px;
+    }
+    div.result-content p{
+        font-size: 1.1em;
+    }
+    span.result-title{
+        font-size: 1.3em;
+        font-weight: 600;
+    }
+    span.result-title2{
+        color: rgb(2, 80, 163);
+        font-weight: 600;
+    }
+    span.red{
+        color: crimson;
+    }
+    span.blue{
+        color: royalblue;
+    }
+    span.orange{
+        color: orange;
+    }
+    span.purple{
+        color: rebeccapurple;
+    }
+    span.green{
+        color: darkgreen;
+    }
+    div.button-area{
+        display: flex;
+        margin: 0 auto;
+        width: 275px;
+        line-height: 30px;
+        background: url(../../../static/image/test_sign.png) no-repeat center center/100% 100%;
+    }
+    div.button-area a{
+        margin: 0 auto;
+        padding: 30px;
+        font-size: 1.2em;
+        font-weight: 600;
+        color: #341E12FF;
+    }
+</style>
+{% endblock %}
+{% block content %}
+{% if request.session.authUser is None %}
+비로그인 상태
+{% else %}
+<div class="result">
+    <div class="result-image">
+        <img src="../../../static/image/ty3_competition.png" width="50%">
+    </div>
+    <h1>[두뇌풀가동 전사]&#x1F5E1;</h1>
+        <div class="result-content">
+            <p><span class="result-title">&#9757;결과내용</span><br>
+            빠른 <span class="red">문제해결</span> 척척 수행!<br>
+            머리쓰는 거 좋아!<br>
+            처음부터 키우고 수집하는게 좋아!<br>
+            <br>
+            <span class="orange">머리를 써서 추리</span>하거나 <span class="green">전략을 짜서 상대방을 이기는 게임</span>을 추천해요!<br>
+            비교적 규칙이 복잡하고, 상대방의 수를 읽고 생각을 하는 게임을<br>
+            좋아하는 편이에요.<br>
+            추천게임의 경우 <span class="blue">게임시간이 다른 종류의 게임에 비해 다소 긴 편</span>이며,<br>
+            난이도가 높아요!<br>
+            한번의 게임을 즐기는 데에 짧게는 40분에서 길게는 3시간까지 걸리는군요?<br>
+            친구들이나 연인끼리 팀을 이루어 상대팀과 싸우는 <span class="purple">대전게임</span>도 추천입니다! :)<br>
+
+            <br>
+            &#128150;<span class="result-title2">한번쯤 해볼만한 게임</span><br>
+            &#35;리그오브레전드 &#35;어몽어스 &#35;클래시로얄 &#35;세븐나이츠 &#35;체스<br>
+            &#9876;<span class="result-title2">하면 스트레스 받는 게임</span><br>
+            &#35;무한의계단 &#35;길건너친구들<br>
+            &#129308;<span class="result-title2">뜻밖의 능력치</span><br>
+            &#45; 상황에 따른 문제해결 대처 능력<br>
+            &#45; 게임에 오랜 시간 집중할 수 있는 집중력과신중한 판단력<br>
+            </p>
+            <img src="../../../static/image/ty3_competition2.png" width="200px">
+        </div><!--result-content-->
+</div><!--result-->
+<div class="button-area">
+    <a href="{% url 'type_test:type_test' %}">테스트 다시하기</a>
+</div>
+{% endif %}
+{% endblock %}

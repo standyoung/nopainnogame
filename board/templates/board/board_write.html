@@ -1,0 +1,92 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}NoPainNoGame Board Detail{% endblock %}
+{% block style %}
+<link rel="stylesheet" href="{% static 'css/button.css' %}">
+<style>
+    .container{
+        display: flex;
+        justify-content: space-between;
+        padding-top: 50px;
+        padding-bottom: 80px;
+    }
+    .post_detail{
+        width: 900px;
+        margin: 0 auto;
+    }
+    .post_detail .title{
+        font-size: 30px;
+        font-weight: bold;
+        margin: 0;
+    }
+    textarea{
+        width: 100%;
+        min-height: 300px;
+        font-size: 15px;
+    }
+    .edit_div{
+        text-align: right;
+    }
+
+    /*버튼 css*/
+    .btn {
+
+        position: relative;
+        border: 0;
+        padding: 3px;
+        width: 50px;
+        height: 25px;
+        text-align: center;
+        color: white;
+        font-weight: 600;
+        font-size: 12px;
+        border-radius: 3px;
+        cursor: pointer;
+    }
+    .btn:active{
+        bottom: -4px;
+    }
+    input[type='radio']{
+        display: none;
+    }
+</style>
+{% endblock %}
+{% block script %}
+<script>
+$(document).ready(function() {
+    $('select[name=category]').change(function () {
+        category = $('select[name=category]').val();
+    });
+});
+</script>
+{% endblock %}
+{% block content %}
+<form method="POST" class="post_detail" action="{% url 'board:board_write_post' %}">
+{% csrf_token %}
+    <input type="text" style="border: 0;" class="title" placeholder="제목을 입력하세요." name="pn">
+    <hr>
+    <p>작성자 : {{request.session.authUser.member_id}}</p>
+    <hr>
+    <p>카테고리 :
+        <select name="category">
+            {% for pt in p_types %}
+                <option value="{{pt.p_type}}">
+                    {% if pt.p_type == '1' %}
+                    날쌘돌이 구름이{% elif pt.p_type == '2' %}
+                    심플프리덤 감자{% elif pt.p_type == '3' %}
+                    두뇌풀가동 전사{% elif pt.p_type == '4' %}
+                    재기발랄 모험가{% endif %}
+                </option>
+            {% endfor %}
+        </select>
+    </p>
+    <hr>
+    <textarea placeholder="내용을 입력하세요." cols=40 rows=10 name="c"></textarea>
+    <br>
+    <br>
+    {% if request.GET.result == 'type_fail' %}
+        <p style="color: red;">카테고리를 선택해주세요.</p>
+    {% endif %}
+    <div style="text-align: right;"><input class="btn blue rounded" type="submit" value="글쓰기"></div>
+</form>
+{% endblock %}

@@ -1,0 +1,92 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}NoPainNoGame Board Detail{% endblock %}
+{% block script %}
+{% endblock %}
+{% block style %}
+<link rel="stylesheet" href="{% static 'css/button.css' %}">
+<style>
+    .container{
+        display: flex;
+        justify-content: space-between;
+        padding-top: 50px;
+        padding-bottom: 150px;
+    }
+    ul{
+        margin: 0;
+    }
+    .post_detail .title{
+        font-size: 30px;
+        font-weight: bold;
+        margin: 0;
+    }
+    .post_detail{
+        min-height: 500px;
+        height: 100%;
+        position: relative;
+        width: 900px;
+        margin: 0 auto;
+    }
+    .post_detail p{
+        margin: 0;
+    }
+    .post_header p{
+        margin: 17px 0;
+    }
+    .board_content{
+        width: 100%;
+        padding: 10px;
+    }
+    .board_content p{
+        margin: 0;
+    }
+    .options{
+        position: absolute;
+        bottom: -80px;
+        right: 10px;
+       text-align: right;
+    }
+
+    /*버튼 css*/
+    .btn {
+        position: relative;
+        border: 0;
+        padding: 4px 7px;
+        width: 55px;
+        height: 35px;
+        text-align: center;
+        color: white;
+        font-weight: 600;
+        font-size: 12px;
+        border-radius: 3px;
+        cursor: pointer;
+    }
+    .btn:active{
+        bottom: -4px;
+    }
+</style>
+{% endblock %}
+{% block content %}
+
+<div class="post_detail">
+    <div class="post_header">
+        <p class="title">{{post.postname}}</p>
+        <hr>
+        <p>작성자 : {{post.member_id}}</p>
+        <hr>
+        <p>카테고리 : {% if post.p_type_id == 1 %}날쌘돌이 구름이{% elif post.p_type_id == 2 %}심플프리덤 감자{% elif post.p_type_id == 3 %}두뇌풀가동 전사{% elif post.p_type_id == 4 %}재기발랄 모험가{% endif %}</p>
+        <hr>
+        <div class="board_content">{{post.contents|linebreaks}}</div>
+    </div>
+    <div class="options">
+        <p>{{post.post_date}}</p>
+        <br>
+        <a href="{% url 'board:board' %}" class="btn green rounded">목록으로</a>
+            {% if post.member_id == user %}
+            <a class="btn blue rounded" href="{% url 'board:board_edit' post.id %}">수정</a>
+            <a class="btn red rounded" href="{% url 'board:board_delete' post.id %}">삭제</a>
+            {% else %}
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,113 @@
+{% extends 'base.html' %}
+{% block title %}NoPainNoGame type1{% endblock %}
+{% block script %}
+{% endblock %}
+{% block style %}
+<style>
+    div.container{
+        background-image: url("../../../static/image/ty1_bg.png");
+        background-size: 64px;
+        background-repeat: repeat;
+        font-family: 'Dunggeunmo', sans-serif;
+    }
+    div.result{
+        margin: 0 auto;
+    }
+    h1{
+        text-align: center;
+    }
+    div.result-image{
+        text-align: center;
+    }
+    div.result-content{
+        margin: 0 auto;
+        width: 680px;
+        padding: 30px 37px;
+        background: url(../../../static/image/result-content.png) no-repeat center center/100% 100%;
+        line-height: 1.8em;
+    }
+    div.result-content img{
+        position: relative;
+        bottom: 100px;
+        left: 400px;
+        bottom: -25px;
+    }
+    div.result-content p{
+        font-size: 1.1em;
+    }
+    span.result-title{
+        font-size: 1.3em;
+        font-weight: 600;
+    }
+    span.result-title2{
+        color: rgb(2, 80, 163);
+        font-weight: 600;
+    }
+    span.red{
+        color: crimson;
+    }
+    span.blue{
+        color: royalblue;
+    }
+    span.orange{
+        color: orange;
+    }
+    span.purple{
+        color: rebeccapurple;
+    }
+    span.green{
+        color: darkgreen;
+    }
+    div.button-area{
+        display: flex;
+        margin: 0 auto;
+        width: 275px;
+        line-height: 30px;
+        background: url(../../../static/image/test_sign.png) no-repeat center center/100% 100%;
+    }
+    div.button-area a{
+        margin: 0 auto;
+        padding: 30px;
+        font-size: 1.2em;
+        font-weight: 600;
+        color: #341E12FF;
+    }
+</style>
+{% endblock %}
+{% block content %}
+{% if request.session.authUser is None %}
+비로그인 상태
+{% else %}
+<div class="result">
+    <div class="result-image">
+        <img src="../../../static/image/ty1_speed.png" width="50%">
+    </div>
+    <h1>[날쌘돌이 구름이]&#x1F329;</h1>
+        <div class="result-content">
+            <p><span class="result-title">&#9757;결과내용</span><br>
+            <span class="red">빠른 스피드</span>와 게임 진행을 즐기는 당신!<br>
+            오랜 시간이 필요한 게임보다는 <span class="orange">내가 익힌 만큼! 할 수 있는 만큼!</span><br>
+            <span class="green">스스로의 역량</span>을 온전히 발휘하고 싶어하는군요<br>
+            거기다 운까지 따라주면 더좋구요:)<br>
+            타인과 함께 승리를 만들어가는 것도 좋지만<br>
+            내가 할 만큼 했는데 결과가 맘에 들지 않을 경우<br>
+            그냥 <span class="blue">혼자</span>하고 말지 라고 생각하는군요<br>
+            승리 하기 위해서 몇번이라도 다시 도전하는 <span class="purple">집념</span>도 가지고 있어요!<br>
+            <br>
+            &#128150;<span class="result-title2">한번쯤 해볼만한 게임</span><br>
+            &#35;배틀그라운드 &#35;카트라이더 &#35;오버워치<br>
+            &#9876;<span class="result-title2">하면 스트레스 받는 게임</span><br>
+            &#35;포켓몬고 &#35;쿠키런 킹덤<br>
+            &#129308;<span class="result-title2">뜻밖의 능력치</span><br>
+            &#45; 스피드 고수들 사이에서 단련된 맷집과 민첩함<br>
+            &#45; 눈치싸움에서 살아남는 법을 어쩔 수 없이 배워버린 빠른 두뇌 회전<br>
+            </p>
+            <img src="../../../static/image/ty1_speed2.png" width="200px">
+        </div><!--result-content-->
+</div><!--result-->
+<div class="button-area">
+    <a href="{% url 'type_test:type_test' %}">테스트 다시하기</a>
+</div>
+
+{% endif %}
+{% endblock %}

@@ -1,0 +1,111 @@
+{% extends 'base.html' %}
+{% block title %}NoPainNoGame type_2{% endblock %}
+{% block script %}
+{% endblock %}
+{% block style %}
+<style>
+    div.container{
+        background-image: url("../../../static/image/ty2_bg.png");
+        background-size: 64px;
+        background-repeat: repeat;
+        font-family: 'Dunggeunmo', sans-serif;
+    }
+    div.result{
+        margin: 0 auto;
+    }
+    h1{
+        text-align: center;
+    }
+    div.result-image{
+        text-align: center;
+    }
+    div.result-content{
+        margin: 0 auto;
+        width: 700px;
+        padding: 30px 37px;
+        background: url(../../../static/image/result-content.png) no-repeat center center/100% 100%;
+        line-height: 1.8em;
+    }
+    div.result-content img{
+        position: relative;
+        bottom: 100px;
+        left: 400px;
+        bottom: -25px;
+    }
+    div.result-content p{
+        font-size: 1.1em;
+    }
+    span.result-title{
+        font-size: 1.3em;
+        font-weight: 600;
+    }
+    span.result-title2{
+        color: rgb(2, 80, 163);
+        font-weight: 600;
+    }
+    span.red{
+        color: crimson;
+    }
+    span.blue{
+        color: royalblue;
+    }
+    span.orange{
+        color: orange;
+    }
+    span.purple{
+        color: rebeccapurple;
+    }
+    span.green{
+        color: darkgreen;
+    }
+    div.button-area{
+        display: flex;
+        margin: 0 auto;
+        width: 275px;
+        line-height: 30px;
+        background: url(../../../static/image/test_sign.png) no-repeat center center/100% 100%;
+    }
+    div.button-area a{
+        margin: 0 auto;
+        padding: 30px;
+        font-size: 1.2em;
+        font-weight: 600;
+        color: #341E12FF;
+    }
+</style>
+{% endblock %}
+{% block content %}
+{% if request.session.authUser is None %}
+비로그인 상태
+{% else %}
+<div class="result">
+    <div class="result-image">
+        <img src="../../../static/image/ty2_simple.png" width="50%">
+    </div>
+    <h1>[심플프리덤 감자]&#x1F331;</h1>
+        <div class="result-content">
+            <p><span class="result-title">&#9757;결과내용</span><br>
+            "게임은 스트레스 풀려고 하는 거 아닌가?!"<br>
+            게임에 스트레스 받는 걸 용서 못하는 당신!<br>
+            룰이 복잡하면 쉽게 포기하기 때문에 <span class="red">간단한 게임</span>에 흥미를 느끼는군요?<br>
+            이기고 지는 것을 별로 따지지 않아 레벨업에 관심이 별로 없는 유형!<br>
+            <span class="orange">중독성이 강한 게임</span>이어야지만 비교적 오랫동안 게임을 할 수 있겠어요.<br>
+            이유는 <span class="green">단순</span>하고 반복되는 게임이기에 쉽게 지루함을 느낄 수 있기 때문!<br>
+            게임은 난이도가 낮고 <span class="blue">간단한 조작</span>으로 <span class="purple">짧은 시간</span>에 즐길 수 있어야 합니다!<br>
+            <br>
+            &#128150;<span class="result-title2">한번쯤 해볼만한 게임</span><br>
+            &#35;어몽어스 &#35;무한의계단 &#35;길건너친구들 &#35;모두의마블 &#35;퍼즐 &#35;테트리스<br>
+            &#9876;<span class="result-title2">하면 스트레스 받는 게임</span><br>
+            &#35;리그오브레전드 &#35;콜오브듀티 &#35;하스스톤<br>
+            &#129308;<span class="result-title2">뜻밖의 능력치</span><br>
+            &#45; 마음에 드는 게임이 생기면 끝장을 봐야 하는 집요함<br>
+            &#45; 고정관념이 없어 의외로 어려운 게임 중 막히는 단계에 쉽게 품<br>
+            </p>
+            <img src="../../../static/image/ty2_simple2.png" width="200px">
+        </div><!--result-content-->
+</div><!--result-->
+<div class="button-area">
+    <a href="{% url 'type_test:type_test' %}">테스트 다시하기</a>
+</div>
+{% endif %}
+{% endblock %}

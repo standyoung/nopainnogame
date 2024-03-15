@@ -1,0 +1,162 @@
+{% extends 'mypage/mypage.html' %}
+{% load static %}
+{% block title %}NoPainNoGame{% endblock %}
+{% block script %}
+<script>
+
+</script>
+{% endblock %}
+{% block style %}
+<link rel="stylesheet" href="{% static 'css/button.css' %}">
+<style>
+ul{
+        padding: 0;
+        margin: 0;
+    }
+    li{
+        list-style: none;
+    }
+    legend{
+        font-weight: bold;
+        margin: 0;
+    }
+    .container{
+        display: flex;
+    }
+    .mypage_menu{
+        width: 200px;
+        text-align: center;
+        margin-right: 20px;
+    }
+    .mypage_menu ul{
+        border: 1px solid black;
+        border-radius: 5px;
+        padding: 10px;
+    }
+    .mypage_menu li{
+        border-bottom: 1px solid lightgray;
+        height: 40px;
+        line-height: 40px;
+    }
+    .posts{
+        width: 900px;
+        margin: 0 auto;
+    }
+    .posts h3{
+        font-size: 20px;
+        margin: 0;
+    }
+    .posts_header{
+        position: relative;
+        height: 54px;
+        padding-top: 15px;
+    }
+    .posts table{
+        width: 100%;
+        text-align: center;
+        border-bottom: 1px solid black;
+        border-collapse: collapse;
+    }
+    .posts tr{
+        height: 40px;
+        border-top: 1px solid gray;
+    }
+    .posts th:nth-child(1){
+        width: 110px;
+    }
+    .posts th:nth-child(2){
+        width: 200px;
+    }
+    .posts th:nth-child(3){
+        width: 320px;
+    }
+    .posts th:nth-child(4){
+        width: 270px;
+    }
+    .posts td{
+        text-overflow: ellipsis;
+        height: 40px;
+        max-height: 40px;
+    }
+    .post_title{
+        text-align: left;
+    }
+    .page{
+        margin-top: 20px;
+        border: 0;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+    }
+    .page li{
+        margin-left: 10px;
+        margin-right: 10px;
+    }
+    .c_page a{
+        color: blue;
+    }
+</style>
+{% endblock %}
+{% block contents %}
+<div class="posts">
+    <div class="posts_header"> <h3>내가 쓴 게시물</h3></div>
+    <table>
+        <thead>
+            <th>카테고리</th>
+            <th>작성자</th>
+            <th>제목</th>
+            <th>작성일</th>
+        </thead>
+
+        {% for p in b %}
+        <tr>
+            <td>{% if p.p_type_id == 1 %}
+                구름이{% elif p.p_type_id == 2 %}
+                감자{% elif p.p_type_id == 3 %}
+                전사{% elif p.p_type_id == 4 %}
+                모험가{% endif %}</td>
+            <td>{{p.member_id}}</td>
+            <td><a href="{{p.get_post_url}}" style="display: block;"><div class="post_title">{{p.postname}}</div></a></td>
+            <td>{{p.post_date}}</td>
+        </tr>
+        {% endfor %}
+    </table>
+<!-- 페이징처리 시작 -->
+    <ul class="page">
+        <!-- 이전페이지 -->
+        {% if b.has_previous %}
+        <li>
+            <a href="?page={{ b.previous_page_number }}">이전</a>
+        </li>
+        {% else %}
+        <li>
+            <a tabindex="-1" aria-disabled="true" href="#">이전</a>
+        </li>
+        {% endif %}
+        <!-- 페이지리스트 -->
+
+        {% for page_number in b.paginator.page_range %}
+            {% if page_number == b.number %}
+            <li class="c_page">
+                <a href="?page={{ page_number }}">{{ page_number }}</a>
+            </li>
+            {% else %}
+            <li>
+                <a href="?page={{ page_number }}">{{ page_number }}</a>
+            </li>
+            {% endif %}
+        {% endfor %}
+        <!-- 다음페이지 -->
+        {% if b.has_next %}
+        <li>
+            <a href="?page={{ b.next_page_number }}">다음</a>
+        </li>
+        {% else %}
+        <li>
+            <a tabindex="-1" aria-disabled="true" href="#">다음</a>
+        </li>
+        {% endif %}
+    </ul>
+    <!-- 페이징처리 끝 -->
+</div>
+{% endblock %}

@@ -1,0 +1,159 @@
+{% extends 'mypage/mypage.html' %}
+{% load static %}
+{% block title %}NoPainNoGame{% endblock %}
+{% block script %}
+<meta charset="utf-8" />
+<script src="http://code.jquery.com/jquery-1.12.4.min.js" ></script>
+<script src="http://service.iamport.kr/js/iamport.payment-1.1.5.js"></script>
+<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<script src="https://use.fontawesome.com/releases/v5.2.0/js/all.js"></script>
+<script>
+function requestPay() {
+    var IMP = window.IMP;
+    var code = "imp94855493";  // FIXME: 가맹점 식별코드
+    IMP.init(code);
+      IMP.request_pay({ // param
+          pg: "html5_inicis",
+          pay_method: "card",
+          merchant_uid: 'merchant_' + new Date().getTime(),
+          name: "연체료 결제",
+          amount:  {{user.overdue}}*1000,
+          buyer_name: "{{ user.member_name }}",
+      }, function (rsp) { // callback
+          if (rsp.success) {
+              $('.pay').submit();
+              jQuery.ajax({
+                url: "{/mypage/mypage_user}",
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                data: {
+                    imp_uid: rsp.imp_uid,
+                    merchant_uid: rsp.merchant_uid
+                }
+            }).done(function (data) {
+              // 가맹점 서버 결제 API 성공시 로직
+            })
+          } else {
+            alert("결제에 실패하였습니다. 에러 내용: " +  rsp.error_msg);
+          }
+      });
+    }
+</script>
+{% endblock %}
+{% block style %}
+<link rel="stylesheet" href="{% static 'css/button.css' %}">
+<style>
+    ul{
+        padding: 0;
+        margin: 0;
+    }
+    li{
+        list-style: none;
+    }
+    .container{
+        display: flex;
+    }
+    .mypage_menu{
+        width: 200px;
+        text-align: center;
+        margin-right: 20px;
+    }
+    .mypage_menu ul{
+        border: 1px solid black;
+        border-radius: 5px;
+        padding: 10px;
+    }
+    .mypage_menu li{
+        border-bottom: 1px solid lightgray;
+        height: 40px;
+        line-height: 40px;
+    }
+    legend{
+        font-weight: bold;
+        margin: 0;
+    }
+    .mypage_content{
+        width: 900px;
+        margin: 0 auto;
+    }
+    .mypage_content table{
+        width: 100%;
+        text-align: center;
+        border-bottom: 1px solid black;
+        border-collapse: collapse;
+    }
+    .mypage_content tr{
+        height: 40px;
+        border-top: 1px solid gray;
+    }
+    .mypage_content td{
+        padding: 12px;
+    }
+    .mypage_content td:nth-child(1){
+        text-align: left;
+    }
+    .mypage_content td:nth-child(2){
+        width: 550px;
+        text-align: left;
+    }
+
+    /*버튼 css*/
+    .btn {
+        position: relative;
+        border: 0;
+        padding: 6px 12px;
+        margin: 10px;
+        display: inline-block;
+        text-align: center;
+        color: white;
+        font-weight: 600;
+        font-size: 14px;
+        border-radius: 5px;
+    }
+    .btn:active {
+        top: 4px;
+    }
+
+</style>
+{% endblock %}
+{% block contents %}
+<div class="mypage_content">
+    <h3>나의 정보</h3>
+    <table>
+        <tr>
+            <td>이름</td>
+            <td>{{user.member_name}}</td>
+        </tr>
+        <tr>
+            <td>아이디</td>
+            <td>{{user.member_id}}</td>
+        </tr>
+        <tr>
+            <td>전화번호</td>
+            <td>{{user.phone}}</td>
+        </tr>
+        <tr>
+            <td>주소</td>
+            <td>{{user.address}}</td>
+        </tr>
+        <tr>
+            <td>연체 상황&#42;</td>
+            <td style="display: relative;">{{user.overdue}}일<form style="position: absolute; width: 100px; margin-top: -37.5px; right: 45px;" class="pay" method="POST"><input type="button" class="btn purple rounded" onclick="requestPay()" value="연체료 결제"></form></td>
+        </tr>
+        <tr>
+            <td>게임 유형</td>
+            <td>{% if user.type_id == 1 %}
+                날쌘돌이 구름이
+                {% elif user.type_id == 2 %}
+                심플프리덤 감자
+                {% elif user.type_id == 3 %}
+                두뇌풀가동 전사
+                {% elif user.type_id == 4 %}
+                재기발랄 모험가{% endif %}
+            </td>
+        </tr>
+    </table>
+    <p style="margin: 5px 0 0 0;">※현재 연체 중인 상황은 반영되지 않음</p>
+    <p style="text-align: right;"><a href="{% url 'mypage:mypage_useredit' %}" class="btn cyan rounded">수정하기</a></p>
+</div>
+{% endblock %}

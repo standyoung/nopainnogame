@@ -1,0 +1,320 @@
+{% extends 'base.html' %}
+{% block title %}NoPainNoGame{% endblock %}
+{% block script %}
+{% endblock %}
+{% block style %}
+<link rel="preconnect" href="https://fonts.googleapis.com" xmlns="http://www.w3.org/1999/html">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400&display=swap" rel="stylesheet">
+<script>
+    // html dom 이 다 로딩된 후 실행된다.
+    $(document).ready(function(){
+        // menu를 클릭했을때
+        $(".menu").click(function(){
+            var submenu = $(this).next("p");
+            // submenu 가 화면상에 보일때는 위로 부드럽게 접고 아니면 아래로 부드럽게 펼치기
+            if( submenu.is(":visible") ){
+                submenu.slideUp();
+            }else{
+                submenu.slideDown();
+            }
+        });
+    });
+</script>
+
+<style>
+    div.container{
+        background: #6A386E;
+        padding: 50px;
+        font-family: "Noto Sans KR",sans-serif;
+    }
+    div.content{
+        background: #EDE7C5;
+    }
+    h2, h3, h1, p {
+        margin: 0;
+    }
+    .container h1{
+        text-align: center;
+        line-height: 150%;
+    }
+    h2{
+        margin: 0;
+        font-size: 32px;
+        line-height: 40px;
+    }
+    h3{
+        margin: 0;
+        font-size: 20px;
+    }
+    section p{
+        margin-top: 16px;
+        line-height: 150%;
+        font-size: 16px;
+    }
+    section.section1, section.section3, section.section4{
+        padding: 80px 40px;
+    }
+    section.section2{
+        padding: 80px 125px;
+    }
+    section.section5{
+        padding: 16px 130px 80px;
+        margin-bottom: 25px;
+    }
+
+    header.how_to{
+        padding: 45px 0;
+        background: url("../../../static/image/how_to.jpg") no-repeat;
+        background-size: cover;
+        background-position: center;
+        text-align: center;
+        color: white;
+    }
+    header.how_to h1{
+        font-weight: bold;
+    }
+
+    section.section1{
+        overflow: hidden;
+    }
+    div.rental_device_img{
+        float: left;
+        width: 50%;
+    }
+    div.rental_device_article{
+        float: left;
+        width: 50%;
+    }
+
+    section.section2{
+        overflow: hidden;
+    }
+    div.rental_one{
+        float: left;
+        width: 50%;
+    }
+    div.rental_two{
+        float: left;
+        width: 50%;
+    }
+    .number{
+        width: 32px;
+        height: 32px;
+        background: #D0B0F4;
+        color: #623265;
+        border-radius: 9999px;
+        display: inline-block;
+        margin: 0 20px 0 0;
+        font-size: 20px;
+        text-align: center;
+    }
+
+    section.section3{
+        overflow: hidden;
+    }
+    div.rental_calendar{
+        float: left;
+        text-align: center;
+        width: 50%;
+    }
+    div.rental_calendar_article{
+        float: left;
+        width: 50%;
+    }
+    div.rental_calendar_article table{
+        line-height: 220%;
+        width: 70%;
+    }
+    .container table{
+        padding: 16px 0;
+    }
+    .gray {
+        color: #636C73;
+        font-size: 14px;
+        font-weight: 500;
+
+    }
+    .black{
+        color: #21242A;
+        font-size: 18px;
+        font-weight: 400;
+    }
+
+    section.section4{
+        overflow: hidden;
+    }
+    div.rental_shipping{
+        float: left;
+        text-align: center;
+        width: 50%;
+    }
+    div.rental_shipping_article{
+        float: left;
+        width: 50%;
+    }
+
+    .menu {cursor:pointer;}
+    .hide {display:none;}
+    section.section5 h1{
+        padding: 16px 0;
+        font-size: 18px;
+    }
+    p.menu{
+        font-size: 18px;
+        margin: 0;
+        padding: 16px 0px 16px 24px;
+    }
+    p.hide{
+        font-size: 14px;
+        line-height: 150%;
+        margin: 0;
+        padding: 0 0 16px 40px;
+    }
+
+</style>
+{% endblock %}
+{% block content %}
+<div class="content">
+<header class="how_to">
+    <h1>빠르고 간편한 대여 방법</h1>
+    <p>깨끗이 살균해서 보내드려요</p>
+</header>
+
+<section class="section1">
+    <div class="rental_device_img">
+        <img src="../../../static/image/how_to_game.png" alt="써보고 싶은 제품" width="460px">
+    </div>
+    <div class="rental_device_article">
+        <h2>
+            써보고 싶은 제품을
+            <br>모~두 빌려보세요!
+        </h2>
+        <p>
+            대여할 수 있는 제품에 갯수 제한은 없습니다.
+            <br>한 번에 원하시는 제품을
+            <br>다~! 빌려보실 수 있습니다.
+        </p>
+    </div>
+</section>
+<section class="section2">
+    <div class="rental_one">
+        <div class="flex-2">
+            <h3><div class="number">1</div>원하는 제품을 대여하세요.</h3>
+            <p>유튜브, 리뷰 찾아볼 시간에 직접 써보세요.<br>직접 써보는 게 더 확실합니다.</p>
+        </div>
+    </div>
+    <div class="rental_two">
+        <div class="flex-2">
+            <h3><div class="number">2</div>원하시는 기간을 선택하세요.</h3>
+            <p>14일이면 필요한 제품인지 아닌지 알 수 있습니다.<br>대여 기간이 부족하다면 더 대여해보세요.</p>
+        </div>
+    </div>
+</section>
+<section class="section3">
+    <div class="rental_calendar">
+        <img src="../../../static/image/how_to_calendar.png" alt="달력" width="460px">
+    </div>
+    <div class="rental_calendar_article">
+        <div class="flex-3">
+            <h2>대여 기간을 확인해주세요</h2>
+            <p>오늘 대여하면 내일부터 대여 시작일!<br>대여기간은 14일 고정입니다.</p>
+            <table>
+                <tr>
+                    <td><span class="gray">10일</span><br><b><span class="black">대여시작일</span></b></td>
+                    <td><span class="gray">07시 이전</span><br><b><span class="black">배송도착!</span></b></td>
+                </tr>
+                <tr>
+                    <td><span class="gray">24일</span><br><b><span class="black">반납일 전날</span></b></td>
+                    <td><span class="gray">20시</span><br><b><span class="black">반납접수!</span></b></td>
+                </tr>
+                <tr>
+                    <td><span class="gray">25일</span><br><b><span class="black">반납일</span></b></td>
+                    <td><span class="gray">20시 이전</span><br><b><span class="black">배송받은 장소에 내놓기!</span></b></td>
+                </tr>
+
+
+            </table>
+        </div>
+    </div>
+</section>
+<section class="section4">
+    <div class="rental_shipping">
+        <img src="../../../static/image/how_to_shipping.png" alt="새벽 배송" width="380px">
+    </div>
+    <div class="rental_shipping_article">
+        <div class="flex-4">
+            <h2>빠르고 조용하게<br>새벽배송 해드려요!</h2>
+            <p>대여를 했는데 늦게 도착하면 시간이 아깝잖아요.<br>공동현관 출입방법은 자세하게 부탁드려요!</p>
+        </div>
+    </div>
+</section>
+<section class="section5">
+<h1>자주 묻는 질문</h1>
+    <p class="menu">Q.제품은 언제 도착하나요?</p>
+        <p class="hide">
+            A.대여 시작일 하루 전 22시부터 배송이 시작됩니다.
+            <br>
+            배송이 늦은 시간에 이루어지기 때문에 배송 시 특이사항(ex.공동현관 비밀번호)을 잊지말고 기입해주세요.
+        </p>
+
+    <p class="menu">Q.제품에 하자가 있어요.</p>
+        <p class="hide">
+            A.제품들은 검수 및 소독이 완료된 리퍼 제품으로 생활기스가 있을 수 있습니다.
+            <br>안심하고 쓰셔도 됩니다😊
+            <br>제품이 작동하지 않을 시 고객센터로 연락주시면 빠르게 도와드리겠습니다.
+        </p>
+
+    <p class="menu">Q.여러 제품을 동시에 대여할 수 있나요?</p>
+        <p class="hide">
+            A.기기의 경우 하나만 대여가 가능합니다. 게임은 여러 개의 제품 대여가 가능합니다.
+            <br><font color ="#b7660">* 걱정마세요!
+            <br>배송비는 묶음 결제와 금액은 똑같습니다.
+            </font>
+        </p>
+
+    <p class="menu">Q.제가 결제하고 가족/친구가 써도 되나요?</p>
+        <p class="hide">
+            A.제품 이용은 가능하지만, 제품의 분실 및 훼손에 대한 책임은 친구/가족에게 양도할 수 없습니다.
+        </p>
+
+    <p class="menu">Q.여러 제품을 동시에 대여할 수 있나요?</p>
+        <p class="hide">
+            A.기기의 경우 하나만 대여가 가능합니다. 게임은 여러 개의 제품 대여가 가능합니다.
+            <br><font color ="#b7660">* 걱정마세요!
+            <br>배송비는 묶음 결제와 금액은 똑같습니다.
+            </font>
+        </p>
+
+    <p class="menu">Q.제가 결제하고 가족/친구가 써도 되나요?</p>
+        <p class="hide">
+            A.제품 이용은 가능하지만, 제품의 분실 및 훼손에 대한 책임은 친구/가족에게 양도할 수 없습니다.
+        </p>
+
+    <p class="menu">Q.반납 요청은 어떻게 하나요?</p>
+        <p class="hide">
+            A.반납일 하루 전 반납 요청을 위해 알림이 발송됩니다.
+            <br>"마이페이지 > 기기･게임대여목록"에서 반납 요청하실 수 있습니다.
+        </p>
+
+    <p class="menu">Q.반납 날짜를 못 지켰어요.</p>
+        <p class="hide">
+            A.연락이 닿지 않거나 연체된 기간 이후에도 반납하지 않으실 경우 제품정가의 150%에 해당하는
+            <br>금액이 청구될 수 있습니다.
+            <br>자세한 안내사항은 고객센터로 연락주세요.
+        </p>
+
+    <p class="menu">Q.대여 이용 중 제품이 파손됐어요.</p>
+        <p class="hide">
+            A.파손/분실된 제품 및 구성품은 동의하신 이용약관에 따라 보상금액이 청구될 수 있습니다.
+        </p>
+
+    <p class="menu">Q.제품 사용방법이 궁금해요!</p>
+        <p class="hide">
+            A.대여하신 제품의 상세페이지에서 제품 정보를 확인하실 수 있습니다.
+            <br>*대여 시 사용방법 메뉴얼을 동봉해드리지 않는 이유는 분실 및 훼손에 대한 우려가 있어
+            <br>동봉해드리지 않고 있습니다. 이 점 양해바랍니다.
+        </p>
+</section>
+</div>
+{% endblock %}
