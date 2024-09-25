@@ -23,6 +23,6 @@
 - 유형별 게시판 커뮤니티 
 
 ## Preview
-![Video Label](http://img.youtube.com/vi/9J4vzecrF_c/maxresdefault.jpg)(https://www.youtube.com/9J4vzecrF_c)
+[![Video Label](http://img.youtube.com/vi/9J4vzecrF_c/maxresdefault.jpg)](https://youtu.be/9J4vzecrF_c)
 
 ## Service Introduction
