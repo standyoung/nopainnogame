@@ -13,12 +13,17 @@
 |------|------|------|------|
 
 ## Service Architecture
-- Frontend Tech Stack 🛠<br>
+- Front Tech Stack 🛠<br>
 - Backend Tech Stack 🛠<br>
 
 ## Main Feature
+- 유형별 테스트를 통해 사용자의 취향을 반영하고 게임 추천
+![7](https://github.com/user-attachments/assets/f74f45bb-b86b-4e52-840f-9bd39602f01a)
+- 게임과 기기 대여와 예약
+
+- 유형별 게시판 커뮤니티 
 
 ## Preview
-https://youtu.be/9J4vzecrF_c?si=RVj8QE1SGlM5RnuL
+![Video Label](http://img.youtube.com/vi/9J4vzecrF_c/maxresdefault.jpg)
 
 ## Service Introduction
